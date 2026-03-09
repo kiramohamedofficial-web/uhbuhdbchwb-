@@ -1,0 +1,129 @@
+﻿
+> gstudent-platform@1.0.0 build
+> next build
+
+  Γû▓ Next.js 14.2.35
+
+   Creating an optimized production build ...
+node.exe :  ΓÜá Failed 
+to download the 
+stylesheet for https://
+fonts.googleapis.com/cs
+s2?family=Cairo:wght@40
+0;600;700;900&family=Ta
+jawal:wght@400;500;700;
+800;900&display=swap. 
+Skipped optimizing 
+this font.
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: ( ΓÜá Failed t   
+ o ...zing this fon    
+t.:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+Failed to compile.
+
+./hooks/components/admi
+n/AccountCreationDiagno
+sticsView.tsx
+Module not found: 
+Can't resolve '../../se
+rvices/storageService'
+
+https://nextjs.org/docs
+/messages/module-not-fo
+und
+
+Import trace for 
+requested module:
+./hooks/components/admi
+n/AdminDashboard.tsx
+./app/admin/[[...slug]]
+/page.tsx
+
+./hooks/components/admi
+n/AccountCreationDiagno
+sticsView.tsx
+Module not found: 
+Can't resolve '../../se
+rvices/systemService'
+
+https://nextjs.org/docs
+/messages/module-not-fo
+und
+
+Import trace for 
+requested module:
+./hooks/components/admi
+n/AdminDashboard.tsx
+./app/admin/[[...slug]]
+/page.tsx
+
+./hooks/components/admi
+n/AdControl.tsx
+Module not found: 
+Can't resolve '../../se
+rvices/announcementServ
+ice'
+
+https://nextjs.org/docs
+/messages/module-not-fo
+und
+
+Import trace for 
+requested module:
+./hooks/components/admi
+n/PlatformSettingsView.
+tsx
+./hooks/components/admi
+n/AdminDashboard.tsx
+./app/admin/[[...slug]]
+/page.tsx
+
+./hooks/components/admi
+n/AdminDashboard.tsx
+Module not found: 
+Can't resolve '../../se
+rvices/systemService'
+
+https://nextjs.org/docs
+/messages/module-not-fo
+und
+
+Import trace for 
+requested module:
+./app/admin/[[...slug]]
+/page.tsx
+
+./hooks/components/admi
+n/AdminDashboard.tsx
+Module not found: 
+Can't resolve '../../se
+rvices/auditService'
+
+https://nextjs.org/docs
+/messages/module-not-fo
+und
+
+Import trace for 
+requested module:
+./app/admin/[[...slug]]
+/page.tsx
+
+
+> Build failed because 
+of webpack errors

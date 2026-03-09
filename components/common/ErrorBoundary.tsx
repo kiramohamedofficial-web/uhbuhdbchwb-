@@ -1,0 +1,63 @@
+
+import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { ShieldExclamationIcon } from './Icons';
+import { logError } from '../../services/errorLogService';
+
+interface Props {
+  children?: ReactNode;
+}
+
+interface State {
+  hasError: boolean;
+}
+
+/**
+ * ErrorBoundary class component to catch rendering errors in child components.
+ * This component requires being a class component as per React documentation.
+ */
+class ErrorBoundary extends Component<Props, State> {
+  public state: State = { hasError: false };
+  public props: Props;
+
+  constructor(props: Props) {
+    super(props);
+    this.props = props;
+  }
+
+  public static getDerivedStateFromError(_: Error): State {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true };
+  }
+
+  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    // Log the error to the database service
+    console.error("Uncaught error:", error, errorInfo);
+    logError("ErrorBoundary", error.message, errorInfo, 'error');
+  }
+
+  public render(): ReactNode {
+    if (this.state.hasError) {
+      return (
+        <div className="h-screen w-screen flex items-center justify-center bg-[var(--bg-primary)] p-4">
+            <div className="text-center max-w-lg p-8 bg-[var(--bg-secondary)] rounded-2xl shadow-2xl border border-[var(--border-primary)]">
+                <ShieldExclamationIcon className="w-20 h-20 text-red-500 mx-auto mb-6" />
+                <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-3">حدث خطأ غير متوقع</h1>
+                <p className="text-[var(--text-secondary)] mb-8">
+                    عذرًا، واجه التطبيق مشكلة. حاول إعادة تحميل الصفحة. إذا استمرت المشكلة، يرجى التواصل مع الدعم الفني.
+                </p>
+                <button
+                    onClick={() => window.location.reload()}
+                    className="px-6 py-3 font-semibold bg-purple-600 hover:bg-purple-700 rounded-lg text-white transition-colors"
+                >
+                    إعادة تحميل الصفحة
+                </button>
+            </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+export default ErrorBoundary;

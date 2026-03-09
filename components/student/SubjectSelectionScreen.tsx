@@ -23,35 +23,35 @@ const SubjectCard: React.FC<{
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.08, duration: 0.6, ease: "easeOut" }}
             onClick={onClick}
-            className="bg-white rounded-[2.5rem] p-6 mb-6 shadow-[0_12px_45px_-12px_rgba(0,0,0,0.08)] border-2 border-gray-100/80 cursor-pointer relative overflow-hidden group hover:shadow-2xl hover:border-indigo-500/30 transition-all duration-500 transform hover:-translate-y-2 active:scale-[0.98]"
+            className="bg-white rounded-[2.5rem] p-6 mb-6 shadow-[0_12px_45px_-12px_rgba(0,0,0,0.08)] border-2 border-gray-100/80 cursor-pointer relative overflow-hidden group hover:shadow-2xl hover:border-amber-500/30 transition-all duration-500 transform hover:-translate-y-2 active:scale-[0.98]"
         >
             <div className="flex items-center gap-6 relative z-10">
                 {/* Teacher Image with premium border */}
                 <div className="relative shrink-0">
-                    <div className="w-20 h-20 rounded-[2rem] overflow-hidden border-2 border-indigo-50 shadow-inner bg-gradient-to-br from-indigo-50 to-white relative group-hover:scale-105 transition-transform duration-500">
+                    <div className="w-20 h-20 rounded-[2rem] overflow-hidden border-2 border-amber-50 shadow-inner bg-gradient-to-br from-amber-50 to-white relative group-hover:scale-105 transition-transform duration-500">
                         {teacher?.imageUrl ? (
                             <img src={teacher.imageUrl} className="w-full h-full object-cover" alt={teacher.name} />
                         ) : (
-                            <div className="w-full h-full flex items-center justify-center text-indigo-200 font-black text-2xl">
+                            <div className="w-full h-full flex items-center justify-center text-amber-200 font-black text-2xl">
                                 {teacher?.name?.charAt(0)}
                             </div>
                         )}
-                        <div className="absolute inset-0 bg-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div className="absolute inset-0 bg-amber-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                     </div>
                 </div>
 
                 {/* Content */}
                 <div className="flex-1 min-w-0 text-right">
-                    <div className="inline-block px-3 py-1 bg-indigo-50 rounded-xl text-indigo-600 text-[10px] font-black uppercase tracking-widest mb-2 border border-indigo-100">
+                    <div className="inline-block px-3 py-1 bg-amber-50 rounded-xl text-amber-600 text-[10px] font-black uppercase tracking-widest mb-2 border border-amber-100">
                         مادة دراسية
                     </div>
-                    <h3 className="font-black text-xl md:text-2xl text-gray-900 truncate mb-1.5 leading-tight group-hover:text-indigo-600 transition-colors">
+                    <h3 className="font-black text-xl md:text-2xl text-gray-900 truncate mb-1.5 leading-tight group-hover:text-amber-600 transition-colors">
                         {unit.title}
                     </h3>
                     <div className="flex items-center gap-3 text-sm font-bold text-gray-500">
                         <span className="text-gray-900">أ. {teacher?.name || 'مدرس عام'}</span>
                         <span className="w-1.5 h-1.5 rounded-full bg-gray-200"></span>
-                        <div className="flex items-center gap-1.5 text-indigo-500">
+                        <div className="flex items-center gap-1.5 text-amber-500">
                             <VideoCameraIcon className="w-4 h-4" />
                             <span>{lessonCount} حصة HD</span>
                         </div>
@@ -59,7 +59,7 @@ const SubjectCard: React.FC<{
                 </div>
 
                 {/* Modern Interactive Arrow */}
-                <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-300 group-hover:bg-indigo-600 group-hover:text-white group-hover:rotate-12 transition-all duration-500 shadow-sm border border-gray-100 group-hover:border-indigo-500">
+                <div className="w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-300 group-hover:bg-amber-600 group-hover:text-white group-hover:rotate-12 transition-all duration-500 shadow-sm border border-gray-100 group-hover:border-amber-500">
                     <ChevronLeftIcon className="w-7 h-7 transition-transform group-hover:-translate-x-1" />
                 </div>
             </div>
@@ -68,7 +68,7 @@ const SubjectCard: React.FC<{
             <div className="mt-8 pt-6 border-t border-gray-50">
                 <div className="flex justify-between items-center mb-3 px-1">
                     <div className="flex items-center gap-2">
-                        <div className={`w-2 h-2 rounded-full ${progress >= 100 ? 'bg-emerald-500 animate-pulse' : progress > 0 ? 'bg-indigo-500 animate-pulse' : 'bg-gray-300'}`}></div>
+                        <div className={`w-2 h-2 rounded-full ${progress >= 100 ? 'bg-emerald-500 animate-pulse' : progress > 0 ? 'bg-amber-500 animate-pulse' : 'bg-gray-300'}`}></div>
                         <span className="text-xs font-black text-gray-400 tracking-wider uppercase">{progress === 0 ? 'لم تبدأ بعد' : progress >= 100 ? 'أتممت المادة بنجاح' : 'جاري التقدم بالمادة'}</span>
                     </div>
                     <span className="text-lg font-black text-gray-900 tabular-nums">{Math.round(progress)}%</span>
@@ -78,13 +78,13 @@ const SubjectCard: React.FC<{
                         initial={{ width: 0 }}
                         animate={{ width: `${progress}%` }}
                         transition={{ duration: 1.5, ease: "circOut" }}
-                        className={`h-full rounded-full shadow-[0_0_15px_-4px_rgba(0,0,0,0.1)] ${progress >= 100 ? 'bg-gradient-to-r from-emerald-400 to-emerald-600' : 'bg-gradient-to-r from-indigo-500 to-purple-600'}`}
+                        className={`h-full rounded-full shadow-[0_0_15px_-4px_rgba(0,0,0,0.1)] ${progress >= 100 ? 'bg-gradient-to-r from-emerald-400 to-emerald-600' : 'bg-gradient-to-r from-amber-500 to-yellow-600'}`}
                     ></motion.div>
                 </div>
             </div>
 
             {/* Background Accent */}
-            <div className="absolute -top-12 -left-12 w-48 h-48 bg-indigo-500/5 rounded-full blur-3xl group-hover:bg-indigo-500/10 transition-colors"></div>
+            <div className="absolute -top-12 -left-12 w-48 h-48 bg-amber-500/5 rounded-full blur-3xl group-hover:bg-amber-500/10 transition-colors"></div>
         </motion.div>
     );
 };
@@ -190,7 +190,7 @@ const SubjectSelectionScreen: React.FC<SubjectSelectionScreenProps> = ({ grade, 
                                     {isActive && (
                                         <motion.div
                                             layoutId="semester-pill"
-                                            className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full"
+                                            className="absolute inset-0 bg-gradient-to-r from-amber-600 to-yellow-600 rounded-full"
                                             transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                             style={{ zIndex: -1 }}
                                         />
@@ -209,9 +209,9 @@ const SubjectSelectionScreen: React.FC<SubjectSelectionScreenProps> = ({ grade, 
                         placeholder="ابحث عن مادة، معلم، أو درس..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full py-5 pr-14 pl-8 bg-white border-2 border-gray-100 focus:border-indigo-500 focus:ring-8 focus:ring-indigo-500/5 rounded-[2.5rem] text-base font-bold text-gray-700 placeholder-gray-400 outline-none transition-all shadow-[0_15px_40px_-10px_rgba(0,0,0,0.05)] focus:shadow-2xl"
+                        className="w-full py-5 pr-14 pl-8 bg-white border-2 border-gray-100 focus:border-amber-500 focus:ring-8 focus:ring-amber-500/5 rounded-[2.5rem] text-base font-bold text-gray-700 placeholder-gray-400 outline-none transition-all shadow-[0_15px_40px_-10px_rgba(0,0,0,0.05)] focus:shadow-2xl"
                     />
-                    <div className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-indigo-500 group-focus-within:scale-110 transition-all duration-300">
+                    <div className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-amber-500 group-focus-within:scale-110 transition-all duration-300">
                         <SearchIcon className="w-6 h-6" />
                     </div>
                 </div>

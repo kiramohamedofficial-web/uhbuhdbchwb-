@@ -1,7 +1,7 @@
 
 import { supabase, getPlatformSettings } from './storageService';
 import { getAllSubscriptions } from './subscriptionService';
-export { runSystemAudit, getSystemSummary, autoFixIssue, type SystemAuditReport, type DiagnosticItem, type DiagnosticStatus } from './systemAuditor';
+export { runSystemAudit, getSystemSummary, autoFixIssue, checkDbConnection, type SystemAuditReport, type DiagnosticItem, type DiagnosticStatus } from './systemAuditor';
 
 
 export const getAdminStats = async () => {

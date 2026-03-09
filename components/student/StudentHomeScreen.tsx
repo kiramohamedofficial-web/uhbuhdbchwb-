@@ -51,7 +51,7 @@ const AnnouncementCarousel: React.FC<{ items: Announcement[] }> = ({ items }) =>
     const currentItem = items[currentIndex];
 
     return (
-        <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-indigo-900 to-purple-900 shadow-lg border border-white/5 mb-6 group mx-2">
+        <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-amber-900 to-yellow-900 shadow-lg border border-white/5 mb-6 group mx-2">
             {currentItem.imageUrl && (
                 <div className="absolute inset-0 z-0">
                     <img src={currentItem.imageUrl} alt="bg" className="w-full h-full object-cover opacity-20 mix-blend-overlay blur-sm scale-110" />
@@ -75,7 +75,7 @@ const AnnouncementCarousel: React.FC<{ items: Announcement[] }> = ({ items }) =>
                             )}
                         </div>
                         <h3 className="text-lg md:text-xl font-black text-white mb-1 leading-tight line-clamp-1">{currentItem.title}</h3>
-                        <p className="text-indigo-100 text-sm md:text-sm font-medium leading-relaxed max-w-xl line-clamp-2">{currentItem.content}</p>
+                        <p className="text-amber-100 text-sm md:text-sm font-medium leading-relaxed max-w-xl line-clamp-2">{currentItem.content}</p>
                     </div>
                 </div>
 
@@ -84,7 +84,7 @@ const AnnouncementCarousel: React.FC<{ items: Announcement[] }> = ({ items }) =>
                         href={currentItem.linkUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full md:w-auto px-5 py-2.5 bg-white text-indigo-900 rounded-xl font-bold text-sm shadow-lg hover:bg-indigo-50 transition-all active:scale-95 flex items-center justify-center gap-2"
+                        className="w-full md:w-auto px-5 py-2.5 bg-white text-amber-900 rounded-xl font-bold text-sm shadow-lg hover:bg-amber-50 transition-all active:scale-95 flex items-center justify-center gap-2"
                     >
                         <span>التفاصيل</span>
                         <ArrowLeftIcon className="w-3 h-3" />
@@ -101,9 +101,9 @@ const WelcomeCard: React.FC<{ name: string; progress: number; onContinue: () => 
     return (
         <div className="w-full px-2 mb-8 perspective-1000">
             <div
-                className="relative w-full rounded-[2.5rem] overflow-hidden group shadow-[0_20px_50px_-12px_rgba(79,70,229,0.5)] border border-white/20 transition-all duration-700 hover:scale-[1.01]"
+                className="relative w-full rounded-[2.5rem] overflow-hidden group shadow-[0_20px_50px_-12px_rgba(245,158,11,0.5)] border border-white/20 transition-all duration-700 hover:scale-[1.01]"
                 style={{
-                    background: `linear-gradient(135deg, ${profileHeaderColor || '#4F46E5'}, #1e1b4b)`,
+                    background: `linear-gradient(135deg, ${profileHeaderColor || '#EAB308'}, #451a03)`,
                     transformStyle: 'preserve-3d'
                 }}
             >
@@ -121,24 +121,24 @@ const WelcomeCard: React.FC<{ name: string; progress: number; onContinue: () => 
                     <div className="flex flex-col gap-2 text-right flex-1 transform translate-z-20 transition-transform duration-500">
                         <div className="flex items-center justify-start gap-2.5">
                             <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_12px_#34d399]"></div>
-                            <span className="text-xs font-black uppercase tracking-[0.2em] text-indigo-100/90 drop-shadow-sm">بوابة المتفوقين</span>
+                            <span className="text-xs font-black uppercase tracking-[0.2em] text-amber-100/90 drop-shadow-sm">بوابة المتفوقين</span>
                         </div>
                         <h1 className="text-2xl md:text-4xl font-black text-white leading-tight drop-shadow-2xl">
-                            مرحباً، <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-indigo-100 to-purple-200">{name.split(' ')[0]}</span> ✨
+                            مرحباً، <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-amber-100 to-yellow-200">{name.split(' ')[0]}</span> ✨
                         </h1>
-                        <p className="text-indigo-100/80 text-sm md:text-base font-bold leading-relaxed hidden sm:block drop-shadow-md">
+                        <p className="text-amber-100/80 text-sm md:text-base font-bold leading-relaxed hidden sm:block drop-shadow-md">
                             مستعد لرحلة تعلم ممتعة النهاردة؟
                         </p>
 
                         <div className="mt-4 flex justify-start">
                             <button
                                 onClick={onContinue}
-                                className="group relative px-8 py-3.5 bg-white text-indigo-900 rounded-2xl font-black text-sm shadow-[0_10px_25px_-5px_rgba(0,0,0,0.4)] active:scale-95 transition-all overflow-hidden flex items-center gap-3"
+                                className="group relative px-8 py-3.5 bg-white text-amber-900 rounded-2xl font-black text-sm shadow-[0_10px_25px_-5px_rgba(0,0,0,0.4)] active:scale-95 transition-all overflow-hidden flex items-center gap-3"
                             >
                                 <span className="relative z-10 flex items-center gap-2">
                                     <PlaySolidIcon className="w-4 h-4" /> استكمال المذاكرة
                                 </span>
-                                <div className="absolute inset-0 bg-gradient-to-r from-indigo-50 to-white opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <div className="absolute inset-0 bg-gradient-to-r from-amber-50 to-white opacity-0 group-hover:opacity-100 transition-opacity"></div>
                             </button>
                         </div>
                     </div>
@@ -146,7 +146,7 @@ const WelcomeCard: React.FC<{ name: string; progress: number; onContinue: () => 
                     <div className="relative flex-shrink-0 group-hover:rotate-6 transition-transform duration-500">
                         <div className="w-24 h-24 md:w-32 md:h-32 flex items-center justify-center relative">
                             {/* Inner Ring Glow */}
-                            <div className="absolute inset-0 rounded-full bg-indigo-500/20 blur-2xl animate-pulse"></div>
+                            <div className="absolute inset-0 rounded-full bg-amber-500/20 blur-2xl animate-pulse"></div>
 
                             <svg className="w-full h-full transform -rotate-90 absolute top-0 left-0">
                                 <circle cx="50%" cy="50%" r="42%" stroke="rgba(255,255,255,0.08)" strokeWidth="8" fill="none" />
@@ -202,35 +202,35 @@ const LessonCard: React.FC<{ lesson: Lesson; unit: Unit; teacher?: Teacher; onCl
     <div
         onClick={onClick}
         className={`p-5 bg-white rounded-[2rem] flex items-center gap-5 group cursor-pointer transition-all duration-500 border-2 active:scale-95 shadow-[0_8px_30px_-5px_rgba(0,0,0,0.08)] hover:shadow-xl relative overflow-hidden
-        ${isCompleted ? 'border-emerald-200' : 'border-gray-200 hover:border-indigo-400/40'}`}
+        ${isCompleted ? 'border-emerald-200' : 'border-gray-200 hover:border-amber-400/40'}`}
     >
-        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 border-2 relative overflow-hidden group-hover:rotate-3 transition-transform duration-500 ${isCompleted ? 'bg-emerald-50 text-emerald-500 border-emerald-100' : 'bg-indigo-50 text-indigo-600 border-indigo-100'}`}>
+        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 border-2 relative overflow-hidden group-hover:rotate-3 transition-transform duration-500 ${isCompleted ? 'bg-emerald-50 text-emerald-500 border-emerald-100' : 'bg-amber-50 text-amber-600 border-amber-100'}`}>
             <PlaySolidIcon className="w-6 h-6 relative z-10" />
-            <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${isCompleted ? 'bg-emerald-500/5' : 'bg-indigo-500/5'}`}></div>
+            <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${isCompleted ? 'bg-emerald-500/5' : 'bg-amber-500/5'}`}></div>
         </div>
 
         <div className="flex-1 min-w-0 text-right">
             <div className="flex items-center justify-end gap-2 mb-1.5 flex-wrap-reverse">
                 <span className="text-xs font-black text-gray-400 truncate max-w-[100px]">{teacher?.name}</span>
-                <span className={`text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-lg border shadow-sm ${isCompleted ? 'bg-emerald-500 text-white border-emerald-400' : 'bg-indigo-500 text-white border-indigo-400'}`}>
+                <span className={`text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-lg border shadow-sm ${isCompleted ? 'bg-emerald-500 text-white border-emerald-400' : 'bg-amber-500 text-white border-amber-400'}`}>
                     {unit.title}
                 </span>
             </div>
-            <h4 className="text-base md:text-lg font-black text-gray-900 truncate group-hover:text-indigo-600 transition-colors leading-tight">{lesson.title}</h4>
+            <h4 className="text-base md:text-lg font-black text-gray-900 truncate group-hover:text-amber-600 transition-colors leading-tight">{lesson.title}</h4>
         </div>
 
-        <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm border-2 transition-all duration-500 ${isCompleted ? 'bg-emerald-500 border-emerald-500 text-white shadow-lg shadow-emerald-500/20' : 'bg-white border-gray-100 text-gray-300 group-hover:border-indigo-200 group-hover:text-indigo-400'}`}>
+        <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm border-2 transition-all duration-500 ${isCompleted ? 'bg-emerald-500 border-emerald-500 text-white shadow-lg shadow-emerald-500/20' : 'bg-white border-gray-100 text-gray-300 group-hover:border-amber-200 group-hover:text-amber-400'}`}>
             {isCompleted ? <CheckCircleIcon className="w-5 h-5" /> : <ClockIcon className="w-5 h-5" />}
         </div>
 
         {/* Subtle Decorative element */}
-        <div className={`absolute -bottom-6 -left-6 w-16 h-16 rounded-full blur-2xl opacity-20 pointer-events-none transition-all duration-700 ${isCompleted ? 'bg-emerald-400' : 'bg-indigo-400'}`}></div>
+        <div className={`absolute -bottom-6 -left-6 w-16 h-16 rounded-full blur-2xl opacity-20 pointer-events-none transition-all duration-700 ${isCompleted ? 'bg-emerald-400' : 'bg-amber-400'}`}></div>
     </div>
 );
 
 const MovieCard: React.FC<{ movie: CartoonMovie, onClick: () => void }> = ({ movie, onClick }) => (
     <div onClick={onClick} className="w-40 md:w-52 shrink-0 group cursor-pointer snap-center mb-4">
-        <div className="h-60 md:h-72 rounded-[2.5rem] overflow-hidden relative border-2 border-indigo-100/50 mb-4 shadow-xl transition-all duration-700 group-hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.3)] group-hover:-translate-y-2 group-active:scale-95 group-hover:border-indigo-400">
+        <div className="h-60 md:h-72 rounded-[2.5rem] overflow-hidden relative border-2 border-amber-100/50 mb-4 shadow-xl transition-all duration-700 group-hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.3)] group-hover:-translate-y-2 group-active:scale-95 group-hover:border-amber-400">
             <img src={movie.posterUrl} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" loading="lazy" />
 
             {/* Darker, defined overlay */}
@@ -288,7 +288,7 @@ const StoryRing: React.FC<{ story: Story; onClick: () => void; isSeen: boolean }
     let previewContent;
     if (story.type === 'image') previewContent = <img src={story.content} className="w-full h-full object-cover" />;
     else if (story.type === 'movie' && story.movie_data) previewContent = <img src={story.movie_data.posterUrl} className="w-full h-full object-cover" />;
-    else previewContent = <div className="w-full h-full flex items-center justify-center bg-indigo-600 text-white text-[8px] font-black p-1 text-center leading-tight overflow-hidden">{story.content.slice(0, 10)}</div>;
+    else previewContent = <div className="w-full h-full flex items-center justify-center bg-amber-600 text-white text-[8px] font-black p-1 text-center leading-tight overflow-hidden">{story.content.slice(0, 10)}</div>;
 
     return (
         <button onClick={onClick} className="flex flex-col items-center gap-1.5 group min-w-[72px] cursor-pointer transition-transform active:scale-95">
@@ -322,10 +322,10 @@ const StudentHomeScreen: React.FC<StudentHomeScreenProps> = ({ user, onNavigate 
     const teacherMap = useMemo(() => new Map(teachers.map(t => [t.id, t])), [teachers]);
 
     const aiSubjects: AISubject[] = [
-        { id: 'biology', title: 'أحياء', icon: BulbIcon, color: 'red', gradient: 'bg-rose-500/5', systemRole: '...' },
-        { id: 'physics', title: 'فيزياء', icon: AtomIcon, color: 'purple', gradient: 'bg-violet-500/5', systemRole: '...' },
-        { id: 'math', title: 'رياضيات', icon: CalculateIcon, color: 'blue', gradient: 'bg-blue-500/5', systemRole: '...' },
-        { id: 'chemistry', title: 'كيمياء', icon: FlaskIcon, color: 'green', gradient: 'bg-emerald-500/5', systemRole: '...' },
+        { id: 'biology', title: 'أحياء', icon: BulbIcon, color: 'amber', gradient: 'bg-amber-500/5', systemRole: '...' },
+        { id: 'physics', title: 'فيزياء', icon: AtomIcon, color: 'yellow', gradient: 'bg-yellow-500/5', systemRole: '...' },
+        { id: 'math', title: 'رياضيات', icon: CalculateIcon, color: 'orange', gradient: 'bg-orange-500/5', systemRole: '...' },
+        { id: 'chemistry', title: 'كيمياء', icon: FlaskIcon, color: 'amber', gradient: 'bg-amber-500/5', systemRole: '...' },
     ];
 
     useEffect(() => {
@@ -429,7 +429,7 @@ const StudentHomeScreen: React.FC<StudentHomeScreenProps> = ({ user, onNavigate 
                 <section className="px-2 animate-slide-up stagger-1">
                     <div className="flex justify-between items-center mb-4 px-2">
                         <h3 className="text-lg font-black text-[var(--text-primary)] flex items-center gap-2">
-                            <span className="w-1 h-6 bg-indigo-500 rounded-full"></span>
+                            <span className="w-1 h-6 bg-amber-500 rounded-full"></span>
                             مناهجي الدراسية
                         </h3>
                         <button onClick={() => onNavigate('grades')} className="text-sm font-bold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors flex items-center gap-1">الكل <ArrowLeftIcon className="w-3 h-3" /></button>
@@ -440,9 +440,9 @@ const StudentHomeScreen: React.FC<StudentHomeScreenProps> = ({ user, onNavigate 
                                 <SubjectCard
                                     title={unit.title}
                                     icon={BookOpenIcon}
-                                    colorClass="text-indigo-600"
-                                    borderColor="border-indigo-100"
-                                    bgClass="bg-indigo-50"
+                                    colorClass="text-amber-600"
+                                    borderColor="border-amber-100"
+                                    bgClass="bg-amber-50"
                                     onClick={() => onNavigate('grades', { unit })}
                                 />
                             </div>
@@ -455,7 +455,7 @@ const StudentHomeScreen: React.FC<StudentHomeScreenProps> = ({ user, onNavigate 
             <section className="px-2 animate-slide-up stagger-2">
                 <div className="flex justify-between items-center mb-4 px-2">
                     <h3 className="text-lg font-black text-[var(--text-primary)] flex items-center gap-2">
-                        <span className="w-1 h-6 bg-violet-600 rounded-full"></span>
+                        <span className="w-1 h-6 bg-amber-600 rounded-full"></span>
                         المعلم الذكي
                     </h3>
                 </div>

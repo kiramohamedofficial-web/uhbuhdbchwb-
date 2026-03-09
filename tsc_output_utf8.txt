@@ -1,0 +1,21 @@
+﻿components/admin/AccountCreationDiagnosticsView.tsx(70,17): error TS2339: Property 'error' does not exist on type 'DiagnosticItem'.
+components/admin/FullScanDiagnosticsView.tsx(128,25): error TS2339: Property 'error' does not exist on type 'DiagnosticItem'.
+components/admin/SessionDiagnosticsView.tsx(64,17): error TS2339: Property 'error' does not exist on type 'DiagnosticItem'.
+components/admin/SystemHealthView.tsx(276,169): error TS2339: Property 'error' does not exist on type 'DiagnosticItem'.
+components/admin/SystemTestView.tsx(235,21): error TS2339: Property 'error' does not exist on type 'DiagnosticItem'.
+supabase/functions/create-supervisor/index.ts(3,23): error TS2307: Cannot find module 'https://deno.land/std@0.177.0/http/server.ts' or its corresponding type declarations.
+supabase/functions/create-supervisor/index.ts(4,30): error TS2307: Cannot find module 'https://esm.sh/@supabase/supabase-js@2' or its corresponding type declarations.
+supabase/functions/create-supervisor/index.ts(6,22): error TS2304: Cannot find name 'Deno'.
+supabase/functions/create-supervisor/index.ts(7,35): error TS2304: Cannot find name 'Deno'.
+supabase/functions/delete-supervisor/index.ts(3,23): error TS2307: Cannot find module 'https://deno.land/std@0.177.0/http/server.ts' or its corresponding type declarations.
+supabase/functions/delete-supervisor/index.ts(4,30): error TS2307: Cannot find module 'https://esm.sh/@supabase/supabase-js@2' or its corresponding type declarations.
+supabase/functions/delete-supervisor/index.ts(6,22): error TS2304: Cannot find name 'Deno'.
+supabase/functions/delete-supervisor/index.ts(7,35): error TS2304: Cannot find name 'Deno'.
+supabase/functions/send-verification-email/index.ts(3,23): error TS2307: Cannot find module 'https://deno.land/std@0.177.0/http/server.ts' or its corresponding type declarations.
+supabase/functions/send-verification-email/index.ts(5,23): error TS2304: Cannot find name 'Deno'.
+supabase/functions/send-verification-email/index.ts(6,22): error TS2304: Cannot find name 'Deno'.
+supabase/functions/send-verification-email/index.ts(7,21): error TS2304: Cannot find name 'Deno'.
+supabase/functions/verify-email-code/index.ts(3,23): error TS2307: Cannot find module 'https://deno.land/std@0.177.0/http/server.ts' or its corresponding type declarations.
+supabase/functions/verify-email-code/index.ts(4,30): error TS2307: Cannot find module 'https://esm.sh/@supabase/supabase-js@2' or its corresponding type declarations.
+supabase/functions/verify-email-code/index.ts(6,22): error TS2304: Cannot find name 'Deno'.
+supabase/functions/verify-email-code/index.ts(7,35): error TS2304: Cannot find name 'Deno'.

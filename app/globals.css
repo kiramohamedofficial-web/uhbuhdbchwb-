@@ -13,12 +13,12 @@
   --bg-tertiary: #1F2937;
   --text-primary: #F8FAFC;
   --text-secondary: #D1D5DB;
-  --accent-primary: #6366F1;
-  --accent-secondary: #8B5CF6;
-  --accent-glow: rgba(99, 102, 241, 0.15);
-  --gradient-start: #6366F1;
-  --gradient-mid: #8B5CF6;
-  --gradient-end: #3B82F6;
+  --accent-primary: #EAB308;
+  --accent-secondary: #FDE047;
+  --accent-glow: rgba(234, 179, 8, 0.15);
+  --gradient-start: #EAB308;
+  --gradient-mid: #FDE047;
+  --gradient-end: #D97706;
   --border-primary: rgba(255, 255, 255, 0.1);
   --glass-bg: rgba(17, 24, 39, 0.75);
   --glass-border: rgba(255, 255, 255, 0.12);
@@ -35,12 +35,12 @@ html[data-theme="light"] {
   --bg-tertiary: #E5E7EB;
   --text-primary: #111827;
   --text-secondary: #4B5563;
-  --accent-primary: #4F46E5;
-  --accent-secondary: #7C3AED;
-  --accent-glow: rgba(79, 70, 229, 0.1);
-  --gradient-start: #4F46E5;
-  --gradient-mid: #7C3AED;
-  --gradient-end: #2563EB;
+  --accent-primary: #EAB308;
+  --accent-secondary: #FDE047;
+  --accent-glow: rgba(234, 179, 8, 0.1);
+  --gradient-start: #EAB308;
+  --gradient-mid: #FDE047;
+  --gradient-end: #CA8A04;
   --border-primary: rgba(0, 0, 0, 0.1);
   --glass-bg: rgba(255, 255, 255, 0.9);
   --glass-border: rgba(0, 0, 0, 0.1);
@@ -288,7 +288,7 @@ textarea {
   }
 
   50% {
-    box-shadow: 0 0 40px var(--accent-glow), 0 0 60px rgba(168, 85, 247, 0.15);
+    box-shadow: 0 0 40px var(--accent-glow), 0 0 60px rgba(234, 179, 8, 0.15);
   }
 }
 
@@ -372,7 +372,7 @@ textarea {
   position: absolute;
   inset: -4px;
   border-radius: inherit;
-  border: 2px solid rgba(124, 58, 237, 0.5);
+  border: 2px solid rgba(234, 179, 8, 0.5);
   animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
 }
 
@@ -575,8 +575,8 @@ textarea {
 }
 
 .glass-hover:hover {
-  background: rgba(124, 58, 237, 0.05);
-  border-color: rgba(124, 58, 237, 0.2);
+  background: rgba(234, 179, 8, 0.05);
+  border-color: rgba(234, 179, 8, 0.2);
   box-shadow: 0 8px 32px var(--accent-glow);
 }
 
@@ -609,7 +609,7 @@ textarea {
 
 /* --- 404 Gradient Text --- */
 .not-found-gradient {
-  background: linear-gradient(135deg, #6366F1, #8B5CF6, #EC4899);
+  background: linear-gradient(135deg, #EAB308, #FDE047, #D97706);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

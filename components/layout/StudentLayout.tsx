@@ -296,18 +296,33 @@ const BottomNavItem: React.FC<{ onClick: () => void; label: string; icon: React.
     <button
         type="button"
         onClick={onClick}
-        className={`relative flex flex-col items-center justify-center transition-all duration-500 group flex-1 pt-2 pb-1`}
+        className={`relative flex flex-col items-center justify-center transition-all duration-500 group flex-1 h-full pt-1`}
     >
-        <div className={`transition-all duration-500 ${isActive ? '-translate-y-3 scale-110' : 'scale-100 opacity-70 group-hover:opacity-100'}`}>
-            <div className={`p-2 rounded-2xl transition-all duration-500 ${isActive ? 'bg-indigo-600 text-white shadow-[0_10px_20px_-5px_rgba(79,70,229,0.5)]' : 'bg-transparent text-gray-500'}`}>
+        <div className={`transition-all duration-500 z-10 ${isActive ? '-translate-y-6 scale-110' : 'scale-100 opacity-60 group-hover:opacity-100'}`}>
+            <div className={`
+                w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500
+                ${isActive
+                    ? 'bg-amber-500 text-white shadow-[0_15px_30px_-5px_rgba(245,158,11,0.6)] rotate-0'
+                    : 'bg-transparent text-[var(--text-secondary)] group-hover:bg-amber-500/10'}
+            `}>
                 <Icon className={`w-6 h-6 object-contain`} />
             </div>
         </div>
-        <span className={`text-[9px] font-black mt-1 transition-all duration-500 uppercase tracking-tighter ${isActive ? 'text-indigo-600 opacity-100' : 'text-gray-400 opacity-0 group-hover:opacity-100'}`}>
+
+        <span className={`
+            text-[10px] font-black mt-1 transition-all duration-500 uppercase tracking-[0.05em]
+            ${isActive
+                ? 'text-amber-500 opacity-100 translate-y-[-4px]'
+                : 'text-[var(--text-secondary)] opacity-0 group-hover:opacity-100 translate-y-0'}
+        `}>
             {label}
         </span>
+
         {isActive && (
-            <motion.div layoutId="navIndicator" className="absolute bottom-1 w-1 h-1 rounded-full bg-indigo-600" />
+            <motion.div
+                layoutId="navIndicator"
+                className="absolute top-0 w-8 h-1 rounded-b-full bg-amber-500 shadow-[0_4px_12px_rgba(245,158,11,0.4)]"
+            />
         )}
     </button>
 ));
@@ -492,10 +507,10 @@ const StudentLayout: React.FC<StudentLayoutProps> = ({ children, onNavClick, act
                 </main>
             </div>
 
-            {/* Mobile Bottom Nav - 6 Items - HIDDEN IN FULLSCREEN */}
+            {/* Mobile Bottom Nav - Premium Floating Design */}
             {!isImmersiveView && !isFullscreenMode && (
-                <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[var(--bg-secondary)] border-t border-[var(--border-primary)] pb-[env(safe-area-inset-bottom)]">
-                    <div className="shadow-2xl p-1 flex justify-between items-center h-20 px-2">
+                <div className="md:hidden fixed bottom-6 left-4 right-4 z-40">
+                    <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl rounded-[2.5rem] border border-white/20 dark:border-white/5 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.2)] px-2 h-20 flex items-center justify-between relative overflow-visible">
                         {bottomNavItems.map((item) => (
                             <BottomNavItem
                                 key={item.id}

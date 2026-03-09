@@ -182,6 +182,7 @@ let isDataInitialized = false;
 let initPromise: Promise<void> | null = null;
 
 export const initData = async (): Promise<void> => {
+    if (isDataInitialized) return;
     if (initPromise) return initPromise;
 
     initPromise = (async () => {
@@ -201,7 +202,7 @@ export const initData = async (): Promise<void> => {
                                 title: l.title,
                                 type: l.type,
                                 content: l.content,
-                                videos: safeParseJson(l.videos), // Parse videos
+                                videos: safeParseJson(l.videos),
                                 description: l.description,
                                 isFree: l.is_free,
                                 quizType: l.quiz_type,
@@ -222,7 +223,8 @@ export const initData = async (): Promise<void> => {
             }
         } catch (err) {
             console.error("Critical error during initData:", err);
-            initPromise = null; // Allow retry
+            initPromise = null;
+            throw err;
         }
     })();
 

@@ -22,7 +22,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { getAllGrades, getUserIdByEmail, adminUpdateUserPassword } from '../../services/storageService';
 import { useSession } from '../../hooks/useSession';
-import { InteractiveSwarm } from '../common/InteractiveSwarm';
+
 import { sendVerificationEmail } from '../../services/emailService';
 import { useToast } from '../../useToast';
 import { useRouter } from 'next/navigation';
@@ -82,7 +82,7 @@ const MatteInput: React.FC<{
                 initial={false}
                 animate={{
                     scale: isFocused ? 1.1 : 1,
-                    color: isFocused ? '#8b5cf6' : '#9ca3af'
+                    color: isFocused ? '#ca8a04' : '#9ca3af'
                 }}
                 className="absolute right-5 top-1/2 -translate-y-1/2 z-10 pointer-events-none"
             >
@@ -97,19 +97,19 @@ const MatteInput: React.FC<{
                 dir={dir}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
-                className="w-full py-4.5 pr-14 pl-12 bg-[var(--bg-tertiary)]/40 backdrop-blur-xl text-[var(--text-primary)] font-bold text-sm rounded-2xl border-2 border-[var(--border-primary)] focus:border-violet-500/50 focus:bg-[var(--bg-secondary)]/80 outline-none transition-all duration-500 placeholder:text-[var(--text-secondary)]/40 shadow-sm hover:border-violet-400/30"
+                className="w-full py-4.5 pr-14 pl-12 bg-[var(--bg-tertiary)]/40 backdrop-blur-xl text-[var(--text-primary)] font-bold text-sm rounded-2xl border-2 border-[var(--border-primary)] focus:border-amber-500/50 focus:bg-[var(--bg-secondary)]/80 outline-none transition-all duration-500 placeholder:text-[var(--text-secondary)]/40 shadow-sm hover:border-amber-400/30"
             />
             {isPassword && (
                 <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] hover:text-violet-400 transition-colors p-1"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] hover:text-amber-400 transition-colors p-1"
                 >
                     {showPassword ? <EyeSlashIcon className="w-5 h-5" /> : <EyeIcon className="w-5 h-5" />}
                 </button>
             )}
             {optional && !isPassword && (
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[10px] font-black uppercase tracking-tighter text-violet-400/60 z-10 pointer-events-none">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[10px] font-black uppercase tracking-tighter text-amber-500/60 z-10 pointer-events-none">
                     Optional
                 </span>
             )}
@@ -119,7 +119,7 @@ const MatteInput: React.FC<{
                     width: isFocused ? '100%' : '0%',
                     opacity: isFocused ? 1 : 0
                 }}
-                className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-violet-500 to-purple-500 rounded-full"
+                className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-amber-500 to-yellow-500 rounded-full"
             />
         </div>
     );
@@ -135,7 +135,7 @@ const StepIndicator: React.FC<{ currentStep: number; totalSteps: number }> = Rea
                 <motion.div
                     animate={{
                         width: i === currentStep ? 40 : 12,
-                        backgroundColor: i <= currentStep ? '#8b5cf6' : 'rgba(156, 163, 175, 0.2)'
+                        backgroundColor: i <= currentStep ? '#ca8a04' : 'rgba(156, 163, 175, 0.2)'
                     }}
                     className="h-2 rounded-full relative overflow-hidden"
                 >
@@ -148,7 +148,7 @@ const StepIndicator: React.FC<{ currentStep: number; totalSteps: number }> = Rea
                     )}
                 </motion.div>
                 {i < totalSteps - 1 && (
-                    <div className={`w-4 h-0.5 mx-1 rounded-full transition-colors duration-500 ${i < currentStep ? 'bg-violet-500/50' : 'bg-gray-200/10'}`} />
+                    <div className={`w-4 h-0.5 mx-1 rounded-full transition-colors duration-500 ${i < currentStep ? 'bg-amber-500/50' : 'bg-gray-200/10'}`} />
                 )}
             </div>
         ))}
@@ -169,6 +169,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onBack, initialView = 'login', 
     const [localError, setLocalError] = useState('');
     const [grades, setGrades] = useState<Grade[]>([]);
     const [animKey, setAnimKey] = useState(0);
+    const [showSaveIndicator, setShowSaveIndicator] = useState(false);
 
     useEffect(() => {
         const saved = localStorage.getItem(AUTH_STATE_KEY);
@@ -188,6 +189,9 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onBack, initialView = 'login', 
 
     useEffect(() => {
         localStorage.setItem(AUTH_STATE_KEY, JSON.stringify({ view, formData, verificationCode, sentCode, resetUserId }));
+        setShowSaveIndicator(true);
+        const timer = setTimeout(() => setShowSaveIndicator(false), 2000);
+        return () => clearTimeout(timer);
     }, [view, formData, verificationCode, sentCode, resetUserId]);
 
     const clearAuthState = () => localStorage.removeItem(AUTH_STATE_KEY);
@@ -425,14 +429,17 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onBack, initialView = 'login', 
 
     return (
         <div className="relative min-h-screen flex font-tajawal overflow-hidden bg-[var(--bg-primary)] text-[var(--text-primary)]">
-            <InteractiveSwarm />
+            <div className="absolute inset-0 pointer-events-none z-0">
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
+                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-yellow-400/10 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2" />
+            </div>
 
             {/* ===== LEFT BRANDING PANEL (Desktop Only) ===== */}
-            <div className="hidden lg:flex flex-col justify-between w-[45%] xl:w-[40%] relative overflow-hidden p-14 shrink-0">
-                <div className="absolute inset-0 bg-gradient-to-br from-violet-950 via-indigo-950 to-purple-950" />
+            <div className="hidden lg:flex flex-col justify-between w-[45%] xl:w-[40%] relative overflow-hidden p-14 shrink-0 z-10">
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-950 via-yellow-900 to-amber-950" />
                 <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0)', backgroundSize: '28px 28px' }} />
-                <div className="absolute -top-40 -left-20 w-80 h-80 bg-violet-600/30 rounded-full blur-[80px]" />
-                <div className="absolute -bottom-20 right-20 w-60 h-60 bg-pink-600/20 rounded-full blur-[60px]" />
+                <div className="absolute -top-40 -left-20 w-80 h-80 bg-amber-600/30 rounded-full blur-[80px]" />
+                <div className="absolute -bottom-20 right-20 w-60 h-60 bg-yellow-600/20 rounded-full blur-[60px]" />
 
                 <button onClick={onBack} className="relative z-10 flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300 w-fit text-sm font-bold">
                     <ArrowRightIcon className="w-4 h-4" />
@@ -446,13 +453,13 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onBack, initialView = 'login', 
                         </div>
                         <div>
                             <h2 className="font-black text-xl text-white tracking-tight">منصة المتفوقين</h2>
-                            <p className="text-violet-300/70 text-xs font-bold uppercase tracking-widest">G-STUDENT PLATFORM</p>
+                            <p className="text-amber-300/70 text-xs font-bold uppercase tracking-widest">G-STUDENT PLATFORM</p>
                         </div>
                     </div>
                     <div>
                         <h1 className="text-4xl xl:text-5xl font-black text-white leading-tight mb-4">
                             ابدأ رحلة<br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-purple-300 to-pink-400">تعليمك الآن</span>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-200">تعليمك الآن</span>
                         </h1>
                         <p className="text-white/50 text-lg font-bold leading-relaxed">منصة تعليمية متكاملة لدعم الطالب في كل خطوة نحو التفوق.</p>
                     </div>
@@ -482,7 +489,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onBack, initialView = 'login', 
                         <span>رجوع</span>
                     </button>
                     {onToggleAudio && (
-                        <button onClick={onToggleAudio} title={isAudioPlaying ? 'إيقاف الموسيقى' : 'تشغيل الموسيقى'} className={`w-10 h-10 rounded-2xl flex items-center justify-center bg-[var(--bg-secondary)] border border-[var(--border-primary)] transition-all ${isAudioPlaying ? 'text-violet-500' : 'text-[var(--text-secondary)]'}`}>
+                        <button onClick={onToggleAudio} title={isAudioPlaying ? 'إيقاف الموسيقى' : 'تشغيل الموسيقى'} className={`w-10 h-10 rounded-2xl flex items-center justify-center bg-[var(--bg-secondary)] border border-[var(--border-primary)] transition-all ${isAudioPlaying ? 'text-amber-500' : 'text-[var(--text-secondary)]'}`}>
                             {isAudioPlaying ? <VolumeUpIcon className="w-5 h-5" /> : <VolumeOffIcon className="w-5 h-5" />}
                         </button>
                     )}
@@ -503,7 +510,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onBack, initialView = 'login', 
                                 <div className="lg:hidden inline-block relative mb-5">
                                     <motion.div
                                         whileHover={{ rotate: 5, scale: 1.05 }}
-                                        className="w-20 h-20 rounded-[1.75rem] bg-gradient-to-br from-violet-600 to-indigo-700 flex items-center justify-center shadow-2xl p-4 border border-violet-400/30"
+                                        className="w-20 h-20 rounded-[1.75rem] bg-gradient-to-br from-amber-500 to-yellow-600 flex items-center justify-center shadow-2xl p-4 border border-amber-400/30"
                                     >
                                         <img src={view === 'login' ? (icons.authLoginIconUrl || icons.mainLogoUrl) : (icons.authRegisterIconUrl || icons.mainLogoUrl)} alt="Logo" className="w-full h-full object-contain" />
                                     </motion.div>
@@ -512,7 +519,29 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onBack, initialView = 'login', 
                                     </div>
                                 </div>
                                 {view.startsWith('register') && (
-                                    <StepIndicator currentStep={getCurrentStep()} totalSteps={isRealEmail(formData.email) ? 3 : 2} />
+                                    <div className="flex flex-col items-center gap-4 mb-8">
+                                        <StepIndicator currentStep={getCurrentStep()} totalSteps={isRealEmail(formData.email) ? 3 : 2} />
+                                        <div className="flex items-center gap-3">
+                                            <button
+                                                type="button"
+                                                onClick={() => window.open('https://youtube.com', '_blank')}
+                                                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 text-amber-600 text-[10px] font-black uppercase tracking-wider border border-amber-500/20 hover:bg-amber-500/20 transition-all"
+                                            >
+                                                <VolumeUpIcon className="w-3 h-3" />
+                                                شرح التسجيل (30 ثانية)
+                                            </button>
+                                            {showSaveIndicator && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, x: 10 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    className="flex items-center gap-1.5 text-[8px] font-black text-emerald-500 uppercase tracking-widest bg-emerald-500/5 px-2 py-1 rounded-full border border-emerald-500/10"
+                                                >
+                                                    <CheckIcon className="w-2.5 h-2.5" />
+                                                    تم الحفظ تلقائياً
+                                                </motion.div>
+                                            )}
+                                        </div>
+                                    </div>
                                 )}
                                 <h1 className="text-3xl lg:text-4xl font-black tracking-tight gradient-text mb-2">{getTitle()}</h1>
                                 <p className="text-[var(--text-secondary)] font-bold text-base opacity-80">{getSubtitle()}</p>
@@ -525,41 +554,49 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onBack, initialView = 'login', 
                                         <MatteInput name="phone" type="text" placeholder="رقم الهاتف أو البريد الإلكتروني" value={formData.phone} onChange={handleChange} icon={UserIcon} dir="ltr" />
                                         <MatteInput name="password" type="password" placeholder="كلمة المرور" value={formData.password} onChange={handleChange} icon={KeyIcon} />
                                         <div className="flex justify-end pb-2 mt-1">
-                                            <button type="button" onClick={() => toggleView('reset-password')} className="text-sm font-black text-violet-400 hover:text-violet-300 transition-colors bg-violet-500/10 hover:bg-violet-500/20 px-4 py-2 rounded-xl">هل نسيت كلمة المرور؟</button>
+                                            <button type="button" onClick={() => toggleView('reset-password')} className="text-sm font-black text-amber-500 hover:text-amber-400 transition-colors bg-amber-500/10 hover:bg-amber-500/20 px-4 py-2 rounded-xl">هل نسيت كلمة المرور؟</button>
                                         </div>
                                     </div>
                                 )}
                                 {view === 'register-step-1' && (
-                                    <div key={`reg1-${animKey}`} className="space-y-0">
-                                        <MatteInput name="name" type="text" placeholder="الاسم الرباعي كاملاً" value={formData.name} onChange={handleChange} icon={UserIcon} />
+                                    <div key={`reg1-${animKey}`} className="space-y-0 text-right">
+                                        <MatteInput name="name" type="text" placeholder="الاسم الكامل" value={formData.name} onChange={handleChange} icon={UserIcon} />
+                                        <MatteInput name="phone" type="tel" placeholder="رقم هاتفك" value={formData.phone} onChange={handleChange} icon={PhoneIcon} dir="ltr" />
+
                                         <div className="grid grid-cols-2 gap-3">
-                                            <MatteInput name="phone" type="tel" placeholder="رقم هاتفك" value={formData.phone} onChange={handleChange} icon={PhoneIcon} dir="ltr" />
-                                            <MatteInput name="guardianPhone" type="tel" placeholder="ولي الأمر" value={formData.guardianPhone} onChange={handleChange} icon={ShieldCheckIcon} dir="ltr" />
+                                            <MatteInput name="password" type="password" placeholder="كلمة المرور" value={formData.password} onChange={handleChange} icon={KeyIcon} />
+                                            <MatteInput name="confirmPassword" type="password" placeholder="تأكيدها" value={formData.confirmPassword} onChange={handleChange} icon={KeyIcon} />
                                         </div>
-                                        <MatteInput name="password" type="password" placeholder="كلمة مرور قوية (6 أحرف+)" value={formData.password} onChange={handleChange} icon={KeyIcon} />
-                                        <MatteInput name="confirmPassword" type="password" placeholder="أعد كتابتها للتأكيد" value={formData.confirmPassword} onChange={handleChange} icon={KeyIcon} />
-                                        <div className="mt-2 pt-3 border-t border-[var(--border-primary)]">
-                                            <MatteInput name="email" type="email" placeholder="البريد الإلكتروني" value={formData.email} onChange={handleChange} icon={EnvelopeIcon} optional={true} />
-                                            <p className="text-sm text-violet-300 -mt-3 mr-2 font-bold flex items-center gap-1">
-                                                <InformationCircleIcon className="w-3 h-3 inline-block" />
-                                                <span>اختياري - للتحقق وحماية حسابك</span>
-                                            </p>
+
+                                        <div className="mt-2 pt-3 border-t border-[var(--border-primary)] space-y-3">
+                                            <div className="flex flex-col gap-1">
+                                                <MatteInput name="guardianPhone" type="tel" placeholder="رقم ولي الأمر" value={formData.guardianPhone} onChange={handleChange} icon={ShieldCheckIcon} dir="ltr" optional={true} />
+                                                <p className="text-[10px] text-[var(--text-secondary)]/60 font-bold mr-2">نحتاجه للتواصل مع ولي أمرك عند الضرورة</p>
+                                            </div>
+
+                                            <div className="flex flex-col gap-1">
+                                                <MatteInput name="email" type="email" placeholder="البريد الإلكتروني" value={formData.email} onChange={handleChange} icon={EnvelopeIcon} optional={true} />
+                                                <p className="text-[10px] text-amber-500/80 font-bold mr-2 flex items-center gap-1">
+                                                    <InformationCircleIcon className="w-3 h-3 inline-block" />
+                                                    اختياري - للتحقق وحماية حسابك
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 )}
                                 {view === 'register-step-2' && (
                                     <div key={`reg2-${animKey}`} className="py-3">
-                                        <label className="block text-sm font-black text-violet-400 uppercase tracking-widest mb-3 mr-2">الصف الدراسي حالياً</label>
+                                        <label className="block text-sm font-black text-amber-500 uppercase tracking-widest mb-3 mr-2">الصف الدراسي حالياً</label>
                                         <div className="relative mb-6">
-                                            <select name="grade" value={formData.grade} onChange={handleChange} aria-label="اختيار الصف الدراسي" title="اختيار الصف الدراسي" className="w-full py-4 pr-14 pl-6 bg-[var(--bg-tertiary)]/80 backdrop-blur-md border-2 border-[var(--border-primary)] rounded-2xl font-black text-[var(--text-primary)] outline-none focus:border-violet-500 appearance-none shadow-sm text-sm transition-all duration-300">
+                                            <select name="grade" value={formData.grade} onChange={handleChange} aria-label="اختيار الصف الدراسي" title="اختيار الصف الدراسي" className="w-full py-4 pr-14 pl-6 bg-[var(--bg-tertiary)]/80 backdrop-blur-md border-2 border-[var(--border-primary)] rounded-2xl font-black text-[var(--text-primary)] outline-none focus:border-amber-500 appearance-none shadow-sm text-sm transition-all duration-300">
                                                 <option value="">اختر من القائمة...</option>
                                                 {grades.map(g => <option key={g.id} value={g.id} className="bg-[var(--bg-secondary)]">{g.name}</option>)}
                                             </select>
                                             <GraduationCapIcon className="absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-secondary)]" />
                                             <ChevronDownIcon className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--text-secondary)]" />
                                         </div>
-                                        <div className="p-4 bg-[var(--bg-tertiary)]/50 backdrop-blur-md border border-violet-500/20 rounded-2xl flex items-start gap-3">
-                                            <SparklesIcon className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
+                                        <div className="p-4 bg-[var(--bg-tertiary)]/50 backdrop-blur-md border border-amber-500/20 rounded-2xl flex items-start gap-3">
+                                            <SparklesIcon className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
                                             <p className="text-sm font-bold text-[var(--text-primary)] leading-relaxed">
                                                 {isRealEmail(formData.email) ? 'باقي خطوة! سنرسل كود تحقق لبريدك.' : 'هذه آخر خطوة! اضغط استمرار لإنشاء حسابك.'}
                                             </p>
@@ -571,8 +608,8 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onBack, initialView = 'login', 
                                         <div className="bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-2xl">
                                             <p className="text-sm font-black text-emerald-400">تحقق من بريدك الآن! الرمز في الطريق.</p>
                                         </div>
-                                        <input type="text" maxLength={6} value={verificationCode} onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ''))} className="w-full py-7 text-center text-4xl font-black tracking-[0.5em] rounded-2xl bg-[var(--bg-tertiary)]/80 border-2 border-[var(--border-primary)] focus:border-violet-500 outline-none transition-all duration-300 shadow-sm text-[var(--text-primary)]" placeholder="------" dir="ltr" />
-                                        <button type="button" onClick={() => view === 'register-verify' ? setView('register-step-2') : setView('reset-password')} className="text-sm font-black text-violet-400 hover:text-violet-300 bg-violet-500/10 hover:bg-violet-500/20 px-6 py-3 rounded-xl transition-all">مشكلة في الكود؟ أرسل مجدداً</button>
+                                        <input type="text" maxLength={6} value={verificationCode} onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ''))} className="w-full py-7 text-center text-4xl font-black tracking-[0.5em] rounded-2xl bg-[var(--bg-tertiary)]/80 border-2 border-[var(--border-primary)] focus:border-amber-500 outline-none transition-all duration-300 shadow-sm text-[var(--text-primary)]" placeholder="------" dir="ltr" />
+                                        <button type="button" onClick={() => view === 'register-verify' ? setView('register-step-2') : setView('reset-password')} className="text-sm font-black text-amber-500 hover:text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 px-6 py-3 rounded-xl transition-all">مشكلة في الكود؟ أرسل مجدداً</button>
                                     </div>
                                 )}
                                 {view === 'reset-password' && (
@@ -594,7 +631,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onBack, initialView = 'login', 
                                     whileTap={{ scale: 0.97 }}
                                     type="submit"
                                     disabled={isLoading}
-                                    className="group w-full py-5 mt-8 bg-gradient-to-br from-violet-600 to-indigo-700 hover:from-violet-500 hover:to-indigo-600 text-white font-black text-lg rounded-2xl shadow-[0_20px_40px_-10px_rgba(79,70,229,0.5)] transition-all duration-500 disabled:opacity-50 overflow-hidden relative"
+                                    className="group w-full py-5 mt-8 bg-gradient-to-br from-amber-500 to-yellow-600 hover:from-amber-400 hover:to-yellow-500 text-white font-black text-lg rounded-2xl shadow-[0_20px_40px_-10px_rgba(245,158,11,0.5)] transition-all duration-500 disabled:opacity-50 overflow-hidden relative"
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                                     <div className="flex items-center justify-center gap-3 relative z-10">
@@ -607,6 +644,18 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onBack, initialView = 'login', 
                                 </motion.button>
 
                                 {/* Footer Nav */}
+                                {view === 'login' && (
+                                    <div className="mt-6 flex flex-col items-center gap-4">
+                                        <button
+                                            type="button"
+                                            onClick={() => window.open('https://wa.me/201234567890', '_blank')}
+                                            className="flex items-center gap-2 text-xs font-black text-[var(--text-secondary)] hover:text-amber-500 transition-colors"
+                                        >
+                                            <InformationCircleIcon className="w-4 h-4" />
+                                            هل تواجه مشكلة؟ تواصل معنا عبر واتساب
+                                        </button>
+                                    </div>
+                                )}
                                 {(view === 'login' || view === 'register-step-1') && (
                                     <div className="mt-8 pt-6 border-t border-[var(--border-primary)]/30 text-center">
                                         <p className="text-sm font-bold text-[var(--text-secondary)]/60 mb-2">
@@ -615,7 +664,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onBack, initialView = 'login', 
                                         <button
                                             type="button"
                                             onClick={() => toggleView(view === 'login' ? 'register-step-1' : 'login')}
-                                            className="text-violet-500 hover:text-violet-400 font-black text-base transition-all bg-violet-500/5 hover:bg-violet-500/10 border border-violet-500/10 px-6 py-2.5 rounded-2xl w-full"
+                                            className="text-amber-500 hover:text-amber-400 font-black text-base transition-all bg-amber-500/5 hover:bg-amber-500/10 border border-amber-500/10 px-6 py-2.5 rounded-2xl w-full"
                                         >
                                             {view === 'login' ? '✨ إنشاء حساب جديد' : 'تسجيل الدخول'}
                                         </button>
@@ -626,7 +675,7 @@ const AuthScreen: React.FC<AuthScreenProps> = ({ onBack, initialView = 'login', 
                                         <button
                                             type="button"
                                             onClick={() => toggleView('login')}
-                                            className="text-violet-500 hover:text-violet-400 font-black text-base transition-all bg-violet-500/5 hover:bg-violet-500/10 border border-violet-500/10 px-6 py-2.5 rounded-2xl w-full"
+                                            className="text-amber-500 hover:text-amber-400 font-black text-base transition-all bg-amber-500/5 hover:bg-amber-500/10 border border-amber-500/10 px-6 py-2.5 rounded-2xl w-full"
                                         >
                                             العودة لتسجيل الدخول
                                         </button>

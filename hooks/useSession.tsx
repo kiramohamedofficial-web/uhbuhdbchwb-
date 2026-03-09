@@ -115,6 +115,33 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
             const session = await getSession();
             if (!session) {
                 setIsLoading(false);
+            } else {
+                try {
+                    let profile: any = null;
+                    const { data: profileData } = await supabase.from('profiles').select('*').eq('id', session.user.id).single();
+                    profile = profileData;
+                    if (profile) {
+                        const gradeData = getGradeByIdSync(profile.grade_id);
+                        setCurrentUser(prev => prev || {
+                            id: session.user.id,
+                            name: profile.name,
+                            email: session.user.email || profile.email,
+                            phone: profile.phone,
+                            guardianPhone: profile.guardian_phone,
+                            grade: profile.grade_id,
+                            track: profile.track,
+                            role: profile.role,
+                            subscriptionId: profile.subscription_id,
+                            teacherId: profile.teacher_id,
+                            imageUrl: profile.profile_image_url,
+                            gradeData: gradeData,
+                        });
+                    }
+                } catch (e) {
+                    console.error("Initial profile fetch error:", e);
+                } finally {
+                    setIsLoading(false);
+                }
             }
         })();
 

@@ -14,6 +14,7 @@ export interface DiagnosticItem {
     value?: string | number;
     detail?: string;
     fixQuery?: string; // SQL لإصلاح المشكلة
+    error?: any;
 }
 
 export interface SystemAuditReport {
@@ -31,11 +32,10 @@ export interface SystemAuditReport {
     warnings: DiagnosticItem[];
 }
 
-// ═══════════════════════════════════════════════════════════
-// 1. فحص الاتصال بقاعدة البيانات
-// ═══════════════════════════════════════════════════════════
-
-const checkDatabaseConnection = async (): Promise<DiagnosticItem> => {
+/**
+ * 1. فحص الاتصال بقاعدة البيانات
+ */
+export const checkDbConnection = async (): Promise<DiagnosticItem> => {
     const start = Date.now();
     try {
         const { error } = await supabase.from('profiles').select('id').limit(1);
@@ -327,7 +327,7 @@ export const runSystemAudit = async (): Promise<SystemAuditReport> => {
         securityResults,
         notificationResults,
     ] = await Promise.allSettled([
-        checkDatabaseConnection(),
+        checkDbConnection(),
         checkRequiredTables(),
         checkDataIntegrity(),
         checkSecurityPolicies(),

@@ -234,7 +234,7 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
         );
     }, [manualNotifications, subscriptionNotifications]);
 
-    const value = {
+    const value = useMemo(() => ({
         subscriptions,
         subscription: primarySubscription,
         isLoading,
@@ -247,7 +247,20 @@ export const SubscriptionProvider: React.FC<{ children: React.ReactNode }> = ({ 
         pendingRequests,
         hasUnseenMovieReplies,
         checkUnseenMovieReplies
-    };
+    }), [
+        subscriptions,
+        primarySubscription,
+        isLoading,
+        fetchSubscription,
+        notifications,
+        addNotification,
+        activeSubscriptions,
+        isComprehensive,
+        hasPendingRequest,
+        pendingRequests,
+        hasUnseenMovieReplies,
+        checkUnseenMovieReplies
+    ]);
 
     return <SubscriptionContext.Provider value={value}>{children}</SubscriptionContext.Provider>;
 };

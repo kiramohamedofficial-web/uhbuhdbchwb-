@@ -118,8 +118,10 @@ function StudentPageInner() {
         return null;
     }
 
+    const lifecycleValue = useMemo(() => ({ setRefreshPaused }), [setRefreshPaused]);
+
     return (
-        <AppLifecycleContext.Provider value={{ setRefreshPaused }}>
+        <AppLifecycleContext.Provider value={lifecycleValue}>
             <div className="transition-all duration-300 min-h-screen">
                 <ErrorBoundary>
                     <ScreenSecurity>

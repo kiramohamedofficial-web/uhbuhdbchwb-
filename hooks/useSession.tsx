@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useState, useEffect, useCallback, useContext } from 'react';
+import React, { createContext, useState, useEffect, useCallback, useContext, useMemo } from 'react';
 import { User, Grade, ToastType } from '../types';
 import {
     signIn,
@@ -47,11 +47,6 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const [authView, setAuthView] = useState<AuthView>('welcome');
     const [isPostRegistrationModalOpen, setIsPostRegistrationModalOpen] = useState(false);
     const { addToast } = useToast();
-
-    useDeviceSessions((msg) => {
-        addToast(msg, ToastType.ERROR);
-        handleLogout();
-    });
 
     useEffect(() => {
         let isMounted = true;
@@ -368,6 +363,13 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
         }
     }, [addToast, currentUser]);
 
+    const onDeviceBlocked = useCallback((msg: string) => {
+        addToast(msg, ToastType.ERROR);
+        handleLogout();
+    }, [addToast, handleLogout]);
+
+    useDeviceSessions(onDeviceBlocked);
+
     const handleSendPasswordReset = useCallback(async (email: string): Promise<void> => {
         setAuthError('');
         const { error } = await sendPasswordResetEmail(email);
@@ -394,7 +396,7 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
     const clearAuthError = () => setAuthError('');
 
-    const value = {
+    const value = useMemo(() => ({
         currentUser,
         isLoading,
         authError,
@@ -409,7 +411,20 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
         isPostRegistrationModalOpen,
         closePostRegistrationModal,
         refetchUser: refetchUserAndGradeData,
-    };
+    }), [
+        currentUser,
+        isLoading,
+        authError,
+        authView,
+        handleLogin,
+        handleRegister,
+        handleLogout,
+        handleSendPasswordReset,
+        handleUpdatePassword,
+        isPostRegistrationModalOpen,
+        closePostRegistrationModal,
+        refetchUserAndGradeData
+    ]);
 
     return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;
 };

@@ -9,6 +9,7 @@ import { getAllTeachers } from '../../services/teacherService';
 import { redeemCode } from '../../services/subscriptionService';
 import { useSubscription } from '../../hooks/useSubscription';
 import Loader from '../common/Loader';
+import { TableWrapper, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../common/Table';
 
 interface SubscriptionViewProps {
     onNavigate: (view: StudentView) => void;
@@ -243,16 +244,16 @@ const SubscriptionView: React.FC<SubscriptionViewProps> = ({ onNavigate }) => {
                     <p className="text-sm font-bold text-[var(--text-secondary)] opacity-60">اختر التفوق الذي يناسب طموحك</p>
                 </div>
 
-                <div className="overflow-x-auto rounded-[2rem] border border-[var(--border-primary)] bg-[var(--bg-secondary)]/50 backdrop-blur-md shadow-xl">
-                    <table className="w-full text-right border-collapse">
-                        <thead>
-                            <tr className="border-b border-[var(--border-primary)]">
-                                <th className="p-5 text-sm font-black text-[var(--text-secondary)] uppercase tracking-widest">الميزة</th>
-                                <th className="p-5 text-sm font-black text-purple-500 text-center">باقة المادة</th>
-                                <th className="p-5 text-sm font-black text-amber-500 text-center">الباقة الشاملة</th>
-                            </tr>
-                        </thead>
-                        <tbody className="text-sm font-bold">
+                <TableWrapper>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead className="uppercase tracking-widest text-[var(--text-secondary)] font-black">الميزة</TableHead>
+                                <TableHead className="text-purple-500 font-black text-center">باقة المادة</TableHead>
+                                <TableHead className="text-amber-500 font-black text-center">الباقة الشاملة</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody className="text-sm font-bold">
                             {[
                                 { name: 'الوصول لجميع الدروس والوحدات', basic: true, pro: true },
                                 { name: 'امتحانات دورية وتصحيح تلقائي', basic: true, pro: true },
@@ -262,19 +263,19 @@ const SubscriptionView: React.FC<SubscriptionViewProps> = ({ onNavigate }) => {
                                 { name: 'أولوية الرد في بنك الأسئلة', basic: false, pro: true },
                                 { name: 'كود خصم خاص للمتفوقين', basic: false, pro: true },
                             ].map((row, i) => (
-                                <tr key={i} className="border-b border-[var(--border-primary)]/50 hover:bg-white/5 transition-colors">
-                                    <td className="p-5 text-[var(--text-primary)]">{row.name}</td>
-                                    <td className="p-5 text-center">
-                                        {row.basic ? <CheckCircleIcon className="w-5 h-5 text-emerald-500 mx-auto" /> : <span className="text-gray-500 opacity-30 text-xs">غير شامل</span>}
-                                    </td>
-                                    <td className="p-5 text-center">
-                                        {row.pro ? <CheckCircleIcon className="w-5 h-5 text-amber-500 mx-auto" /> : <span className="text-gray-500 opacity-30">---</span>}
-                                    </td>
-                                </tr>
+                                <TableRow key={i} className="hover:bg-white/5 transition-colors">
+                                    <TableCell className="text-[var(--text-primary)] font-bold">{row.name}</TableCell>
+                                    <TableCell className="text-center">
+                                        {row.basic ? <CheckCircleIcon className="w-5 h-5 text-emerald-500 mx-auto" /> : <span className="text-gray-500 opacity-30 text-xs text-center font-normal">غير شامل</span>}
+                                    </TableCell>
+                                    <TableCell className="text-center">
+                                        {row.pro ? <CheckCircleIcon className="w-5 h-5 text-amber-500 mx-auto" /> : <span className="text-gray-500 opacity-30 text-center font-normal">---</span>}
+                                    </TableCell>
+                                </TableRow>
                             ))}
-                        </tbody>
-                    </table>
-                </div>
+                        </TableBody>
+                    </Table>
+                </TableWrapper>
 
                 <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                     <button

@@ -4,13 +4,14 @@ import { supabase, adminUpdateUserPassword, deleteUser, getTemporaryClient } fro
 import { getSecurityHardeningReport, getSecurityAuditLogs } from '../../services/systemService';
 import { useToast } from '../../useToast';
 import { ToastType } from '../../types';
-import { 
-    ArrowRightIcon, KeyIcon, ShieldCheckIcon, ShieldExclamationIcon, 
+import {
+    ArrowRightIcon, KeyIcon, ShieldCheckIcon, ShieldExclamationIcon,
     CodeIcon, ClipboardIcon, PlayIcon, UserCheckIcon, DatabaseIcon,
     ServerIcon, WaveIcon, InformationCircleIcon, ClockIcon, ListIcon,
     LockClosedIcon, ShieldCheckIcon as ShieldIcon
 } from '../common/Icons';
 import Loader from '../common/Loader';
+import { TableWrapper, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../common/Table';
 
 const LogViewer: React.FC<{ logs: string[] }> = ({ logs }) => (
     <div className="mt-4 bg-[#0a0a0a] p-5 rounded-[2rem] h-80 overflow-y-auto font-mono text-[11px] border border-white/5 shadow-inner custom-scrollbar" dir="ltr">
@@ -24,29 +25,35 @@ const LogViewer: React.FC<{ logs: string[] }> = ({ logs }) => (
 );
 
 const SecurityAuditTable: React.FC<{ logs: any[] }> = ({ logs }) => (
-    <div className="overflow-x-auto rounded-3xl border border-[var(--border-primary)] bg-[var(--bg-tertiary)]/30">
-        <table className="w-full text-right text-sm">
-            <thead className="bg-[var(--bg-secondary)] text-[var(--text-secondary)] font-black uppercase tracking-widest">
-                <tr>
-                    <th className="p-4">المنفذ</th>
-                    <th className="p-4">العملية</th>
-                    <th className="p-4">التوقيت</th>
-                    <th className="p-4">الحالة</th>
-                </tr>
-            </thead>
-            <tbody className="divide-y divide-[var(--border-primary)]">
+    <TableWrapper className="bg-[var(--bg-tertiary)]/30">
+        <Table>
+            <TableHeader>
+                <TableRow>
+                    <TableHead>المنفذ</TableHead>
+                    <TableHead>العملية</TableHead>
+                    <TableHead>التوقيت</TableHead>
+                    <TableHead>الحالة</TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
                 {logs.map((log, idx) => (
-                    <tr key={idx} className="hover:bg-white/5 transition-colors">
-                        <td className="p-4 font-bold">{log.actor_email || 'System'}</td>
-                        <td className="p-4"><span className="px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md font-mono">{log.action}</span></td>
-                        <td className="p-4 opacity-60">{new Date(log.created_at).toLocaleString('ar-EG')}</td>
-                        <td className="p-4"><span className="text-emerald-500 font-black">SUCCESS</span></td>
-                    </tr>
+                    <TableRow key={idx}>
+                        <TableCell className="font-bold">{log.actor_email || 'System'}</TableCell>
+                        <TableCell><span className="px-2 py-1 bg-indigo-500/10 text-indigo-400 rounded-md font-mono">{log.action}</span></TableCell>
+                        <TableCell className="opacity-60">{new Date(log.created_at).toLocaleString('ar-EG')}</TableCell>
+                        <TableCell><span className="text-emerald-500 font-black">SUCCESS</span></TableCell>
+                    </TableRow>
                 ))}
-                {logs.length === 0 && <tr><td colSpan={4} className="p-10 text-center opacity-70 font-bold">لا توجد سجلات تدقيق حالياً</td></tr>}
-            </tbody>
-        </table>
-    </div>
+                {logs.length === 0 && (
+                    <TableRow>
+                        <TableCell colSpan={4} className="text-center opacity-70 font-bold py-10">
+                            لا توجد سجلات تدقيق حالياً
+                        </TableCell>
+                    </TableRow>
+                )}
+            </TableBody>
+        </Table>
+    </TableWrapper>
 );
 
 const PasswordDiagnosticsView: React.FC<{ onBack: () => void }> = ({ onBack }) => {
@@ -80,12 +87,12 @@ const PasswordDiagnosticsView: React.FC<{ onBack: () => void }> = ({ onBack }) =
         setActiveTab('simulation');
         setLogs([]);
         addLog("🚀 بدء فحص تحديث كلمة المرور عبر الـ Edge Function...");
-        
+
         try {
             addLog("🔐 1. التحقق من وجود حساب طالب تجريبي...");
             const { data: student } = await supabase.from('profiles').select('id, name').limit(1).maybeSingle();
             if (!student) throw new Error("لا يوجد مستخدمين للاختبار.");
-            
+
             addLog(`🔍 2. محاكاة استدعاء Edge Function: admin-update-password...`);
             const { data, error } = await adminUpdateUserPassword(student.id, "TestNewPass123!");
 
@@ -137,7 +144,12 @@ Deno.serve(async (req) => {
         <div className="fade-in space-y-6 pb-20 max-w-6xl mx-auto">
             <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div className="flex items-center gap-4">
-                    <button onClick={onBack} className="p-3 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-primary)] text-[var(--text-secondary)] hover:text-indigo-600 shadow-sm transition-all active:scale-90">
+                    <button
+                        title="العودة للخلف"
+                        aria-label="العودة للخلف"
+                        onClick={onBack}
+                        className="p-3 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-primary)] text-[var(--text-secondary)] hover:text-indigo-600 shadow-sm transition-all active:scale-90"
+                    >
                         <ArrowRightIcon className="w-5 h-5" />
                     </button>
                     <div>
@@ -164,7 +176,7 @@ Deno.serve(async (req) => {
                                     <p className="text-sm text-[var(--text-secondary)] mb-6 leading-relaxed">
                                         تم تحديث النظام ليعمل بنمط <strong>Edge Functions</strong> بدلاً من الـ RPC المباشر على جدول <code>auth.users</code>. هذا يضمن حماية جلسات المستخدمين والتوافق مع معايير Supabase الرسمية.
                                     </p>
-                                    
+
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div className="p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl">
                                             <p className="text-sm font-black uppercase text-emerald-600 mb-1">User Self-Update</p>
@@ -200,7 +212,7 @@ Deno.serve(async (req) => {
                             <div className="lg:col-span-4 space-y-6">
                                 <div className="bg-indigo-600 p-8 rounded-[2.5rem] text-white shadow-xl relative overflow-hidden group">
                                     <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
-                                    <h3 className="text-lg font-black mb-4 relative z-10 flex items-center gap-2"><InformationCircleIcon className="w-5 h-5"/> تنبيه أمني</h3>
+                                    <h3 className="text-lg font-black mb-4 relative z-10 flex items-center gap-2"><InformationCircleIcon className="w-5 h-5" /> تنبيه أمني</h3>
                                     <p className="text-sm font-bold opacity-80 leading-relaxed relative z-10 mb-6">
                                         يُمنع منعاً باتاً تعديل جدول <code>auth.users</code> يدوياً أو عبر <code>SECURITY DEFINER</code>. هذا الفعل قد يكسر نظام المصادقة ويترك ثغرات جسيمة.
                                     </p>
@@ -215,14 +227,14 @@ Deno.serve(async (req) => {
                             <div className="lg:col-span-8">
                                 <div className="bg-[var(--bg-secondary)] p-6 rounded-[2.5rem] border border-[var(--border-primary)] shadow-sm h-full flex flex-col">
                                     <h2 className="text-sm font-black text-[var(--text-secondary)] uppercase tracking-widest mb-4 flex items-center gap-2">
-                                        <DatabaseIcon className="w-5 h-5 opacity-70"/> FUNCTION CALL CONSOLE
+                                        <DatabaseIcon className="w-5 h-5 opacity-70" /> FUNCTION CALL CONSOLE
                                     </h2>
                                     <LogViewer logs={logs} />
                                 </div>
                             </div>
                             <div className="lg:col-span-4 space-y-4">
-                                 <button 
-                                    onClick={handleRunFullDiagnostic} 
+                                <button
+                                    onClick={handleRunFullDiagnostic}
                                     disabled={isSimulating}
                                     className="w-full py-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-[2rem] font-black text-lg shadow-xl active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-3"
                                 >
@@ -242,8 +254,15 @@ Deno.serve(async (req) => {
                     {activeTab === 'logs' && (
                         <div className="animate-fade-in space-y-6">
                             <div className="flex justify-between items-center">
-                                <h2 className="text-xl font-black flex items-center gap-2"><ListIcon className="w-6 h-6 text-indigo-600"/> سجل العمليات الأمنية (Audit Trail)</h2>
-                                <button onClick={fetchAuditInfo} className="p-2 text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all"><ClockIcon className="w-5 h-5"/></button>
+                                <h2 className="text-xl font-black flex items-center gap-2"><ListIcon className="w-6 h-6 text-indigo-600" /> سجل العمليات الأمنية (Audit Trail)</h2>
+                                <button
+                                    title="تحديث السجل"
+                                    aria-label="تحديث سجل العمليات الأمنية"
+                                    onClick={fetchAuditInfo}
+                                    className="p-2 text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all"
+                                >
+                                    <ClockIcon className="w-5 h-5" />
+                                </button>
                             </div>
                             <SecurityAuditTable logs={securityLogs} />
                         </div>

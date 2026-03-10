@@ -54,7 +54,11 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
     });
 
     useEffect(() => {
+        let isMounted = true;
+
         const { data: { subscription } } = onAuthStateChange(async (event, session) => {
+            if (!isMounted) return;
+            
             await initData();
 
             if (event === 'PASSWORD_RECOVERY') {
@@ -68,14 +72,20 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
                 setCurrentUser(null);
                 setAuthView('welcome');
                 setIsLoading(false);
+                return;
             }
 
             if (session) {
-                if (!currentUser || currentUser.id !== session.user.id) {
+                // Fetch profile if not already set or if id changed
+                try {
                     let profile: any = null;
                     let attempts = 0;
-                    while (!profile && attempts < 5) {
-                        const { data: profileData } = await supabase.from('profiles').select('*').eq('id', session.user.id).single();
+                    while (!profile && attempts < 5 && isMounted) {
+                        const { data: profileData } = await supabase
+                            .from('profiles')
+                            .select('*')
+                            .eq('id', session.user.id)
+                            .maybeSingle();
                         profile = profileData;
                         if (!profile) {
                             attempts++;
@@ -83,7 +93,7 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
                         }
                     }
 
-                    if (profile) {
+                    if (profile && isMounted) {
                         const gradeData = getGradeByIdSync(profile.grade_id);
                         const mergedUser: User = {
                             id: session.user.id,
@@ -100,9 +110,9 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
                             gradeData: gradeData,
                         };
                         setCurrentUser(mergedUser);
-                    } else {
-                        console.error("User is logged in but profile data is missing.");
                     }
+                } catch (e) {
+                    console.error("Auth state change profile fetch error:", e);
                 }
             } else {
                 setCurrentUser(null);
@@ -110,19 +120,22 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
             setIsLoading(false);
         });
 
+        // Initial session check
         (async () => {
-            await initData();
-            const session = await getSession();
-            if (!session) {
-                setIsLoading(false);
-            } else {
-                try {
-                    let profile: any = null;
-                    const { data: profileData } = await supabase.from('profiles').select('*').eq('id', session.user.id).single();
-                    profile = profileData;
-                    if (profile) {
+            try {
+                await initData();
+                const { data: { session } } = await supabase.auth.getSession();
+                
+                if (session && isMounted) {
+                    const { data: profile } = await supabase
+                        .from('profiles')
+                        .select('*')
+                        .eq('id', session.user.id)
+                        .maybeSingle();
+                    
+                    if (profile && isMounted) {
                         const gradeData = getGradeByIdSync(profile.grade_id);
-                        setCurrentUser(prev => prev || {
+                        setCurrentUser({
                             id: session.user.id,
                             name: profile.name,
                             email: session.user.email || profile.email,
@@ -137,18 +150,19 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
                             gradeData: gradeData,
                         });
                     }
-                } catch (e) {
-                    console.error("Initial profile fetch error:", e);
-                } finally {
-                    setIsLoading(false);
                 }
+            } catch (e) {
+                console.error("Initial session fetch error:", e);
+            } finally {
+                if (isMounted) setIsLoading(false);
             }
         })();
 
         return () => {
+            isMounted = false;
             subscription?.unsubscribe();
         };
-    }, [addToast, currentUser]);
+    }, [addToast]);
 
     const refetchUserAndGradeData = useCallback(async (shouldRefetchCurriculum = false) => {
         await initData();

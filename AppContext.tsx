@@ -12,13 +12,13 @@ const defaultColors: Record<string, CustomColors> = {
         '--bg-primary': '#F8FAFC',
         '--bg-secondary': '#FFFFFF',
         '--text-primary': '#0F172A',
-        '--accent-primary': '#6366F1',
+        '--accent-primary': '#1E40AF', // Blue for light mode
     },
     'dark': {
-        '--bg-primary': '#020204',
-        '--bg-secondary': '#0A0A0F',
+        '--bg-primary': '#020205',      // Black
+        '--bg-secondary': '#0B1120',    // Deep Blue
         '--text-primary': '#FFFFFF',
-        '--accent-primary': '#6366F1',
+        '--accent-primary': '#C5A021',  // Matte Calm Yellow
     }
 };
 

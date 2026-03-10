@@ -6,6 +6,7 @@ import { useToast } from '../../useToast';
 import { HardDriveIcon, TrashIcon, ShieldExclamationIcon, LogoutIcon, UsersIcon, ClockIcon, ServerIcon, CheckCircleIcon, XCircleIcon, CodeIcon, ClipboardIcon } from '../common/Icons';
 import Loader from '../common/Loader';
 import Modal from '../common/Modal';
+import { TableWrapper, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../common/Table';
 
 interface ViolatingUser {
     user_id: string;
@@ -45,10 +46,10 @@ const DeviceManagementView: React.FC = () => {
     const { addToast } = useToast();
     const [isClearAllModalOpen, setIsClearAllModalOpen] = useState(false);
     const [isClearingAll, setIsClearingAll] = useState(false);
-    
+
     // Missing Functions State
     const [missingFunctions, setMissingFunctions] = useState(false);
-    
+
     // Expandable row state for history
     const [expandedHistoryUser, setExpandedHistoryUser] = useState<string | null>(null);
 
@@ -72,7 +73,7 @@ const DeviceManagementView: React.FC = () => {
         setIsLoading(true);
         const { data, error } = await getLoginHistory();
         if (error) {
-             if (error.code === '42883' || error.message?.includes('function') || error.code === 'PGRST202') {
+            if (error.code === '42883' || error.message?.includes('function') || error.code === 'PGRST202') {
                 setMissingFunctions(true);
             }
             addToast(`فشل جلب السجل: ${error.message}`, ToastType.ERROR);
@@ -98,16 +99,16 @@ const DeviceManagementView: React.FC = () => {
             fetchViolations(); // Refresh list
         }
     };
-    
+
     const handleLogoutSingleDevice = async (sessionId: string) => {
-         const { error } = await logoutDeviceSession(sessionId);
-         if (error) {
-             addToast('فشل تسجيل خروج الجهاز.', ToastType.ERROR);
-         } else {
-             addToast('تم تسجيل خروج الجهاز بنجاح.', ToastType.SUCCESS);
-             if (activeTab === 'violations') fetchViolations();
-             else fetchHistory();
-         }
+        const { error } = await logoutDeviceSession(sessionId);
+        if (error) {
+            addToast('فشل تسجيل خروج الجهاز.', ToastType.ERROR);
+        } else {
+            addToast('تم تسجيل خروج الجهاز بنجاح.', ToastType.SUCCESS);
+            if (activeTab === 'violations') fetchViolations();
+            else fetchHistory();
+        }
     };
 
     const handleClearAllDevices = async () => {
@@ -234,14 +235,14 @@ CREATE POLICY "Admins can view all sessions" ON public.device_sessions FOR ALL U
                     <p className="text-[var(--text-secondary)] mb-6 max-w-lg mx-auto leading-relaxed">
                         يبدو أن الدوال البرمجية (Functions) المسؤولة عن مراقبة الأجهزة غير موجودة في قاعدة البيانات. هذا الأمر طبيعي عند التثبيت لأول مرة.
                     </p>
-                    
+
                     <div className="bg-[#0f172a] rounded-2xl p-6 text-left relative group border border-white/10 mb-6 overflow-hidden">
                         <div className="absolute top-0 left-0 w-full h-1 bg-amber-500"></div>
                         <div className="flex justify-between items-center mb-4">
                             <span className="text-sm font-bold text-amber-500 flex items-center gap-2">
                                 <CodeIcon className="w-4 h-4" /> SQL Repair Script
                             </span>
-                            <button 
+                            <button
                                 onClick={() => { navigator.clipboard.writeText(sqlFixCode); addToast('تم نسخ الكود!', ToastType.SUCCESS); }}
                                 className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-lg text-sm font-bold transition-colors flex items-center gap-2"
                             >
@@ -276,26 +277,26 @@ CREATE POLICY "Admins can view all sessions" ON public.device_sessions FOR ALL U
                     </p>
                 </div>
                 <div className="flex gap-3">
-                    <button 
+                    <button
                         onClick={() => setIsClearAllModalOpen(true)}
                         className="flex items-center justify-center space-x-2 space-x-reverse px-4 py-2 font-semibold bg-red-600/20 text-red-300 hover:bg-red-600/40 rounded-lg transition-colors border border-red-500/20"
                     >
-                        <LogoutIcon className="w-5 h-5"/> 
+                        <LogoutIcon className="w-5 h-5" />
                         <span>تصفية شاملة (Emergency)</span>
                     </button>
                 </div>
             </div>
-            
+
             {/* Tabs */}
             <div className="flex p-1 bg-[var(--bg-tertiary)] rounded-xl w-fit mb-6 border border-[var(--border-primary)]">
-                <button 
-                    onClick={() => setActiveTab('violations')} 
+                <button
+                    onClick={() => setActiveTab('violations')}
                     className={`px-6 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'violations' ? 'bg-[var(--bg-secondary)] text-red-500 shadow-sm' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'}`}
                 >
                     المخالفات الحالية ({violatingUsers.length})
                 </button>
-                <button 
-                    onClick={() => setActiveTab('history')} 
+                <button
+                    onClick={() => setActiveTab('history')}
                     className={`px-6 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'history' ? 'bg-[var(--bg-secondary)] text-[var(--accent-primary)] shadow-sm' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'}`}
                 >
                     سجل الدخول
@@ -314,7 +315,7 @@ CREATE POLICY "Admins can view all sessions" ON public.device_sessions FOR ALL U
                             <div key={user.user_id} className="relative overflow-hidden bg-[var(--bg-secondary)] border border-red-500/30 rounded-xl shadow-lg transition-all hover:shadow-red-500/10 hover:border-red-500/60 group">
                                 {/* Indicator Stripe */}
                                 <div className="absolute top-0 right-0 w-1.5 h-full bg-red-500"></div>
-                                
+
                                 <div className="p-5">
                                     <div className="flex justify-between items-start mb-4 pl-2">
                                         <div className="flex items-center gap-3">
@@ -330,9 +331,9 @@ CREATE POLICY "Admins can view all sessions" ON public.device_sessions FOR ALL U
                                             {user.active_devices}
                                         </div>
                                     </div>
-                                    
+
                                     <div className="bg-red-50 dark:bg-red-900/10 p-3 rounded-lg mb-4 text-sm font-medium space-y-2">
-                                         <p className="text-red-700 dark:text-red-300 font-bold text-center border-b border-red-200 dark:border-red-800 pb-2 mb-2">
+                                        <p className="text-red-700 dark:text-red-300 font-bold text-center border-b border-red-200 dark:border-red-800 pb-2 mb-2">
                                             مخالفة: {user.violation_count} جهاز زائد عن الحد ({user.max_devices}).
                                         </p>
                                         {user.devices.map((dev, idx) => (
@@ -342,12 +343,12 @@ CREATE POLICY "Admins can view all sessions" ON public.device_sessions FOR ALL U
                                             </div>
                                         ))}
                                     </div>
-                                    
-                                    <button 
+
+                                    <button
                                         onClick={() => handleClearDevices(user.user_id, user.user_name)}
                                         className="w-full py-2.5 font-bold text-sm bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors shadow-md flex items-center justify-center gap-2 active:scale-95"
                                     >
-                                        <TrashIcon className="w-4 h-4"/>
+                                        <TrashIcon className="w-4 h-4" />
                                         تسجيل خروج الجميع
                                     </button>
                                 </div>
@@ -363,74 +364,72 @@ CREATE POLICY "Admins can view all sessions" ON public.device_sessions FOR ALL U
                 )
             ) : (
                 // History View
-                 <div className="bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-primary)] shadow-sm overflow-hidden">
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-right text-sm">
-                            <thead className="bg-[var(--bg-tertiary)] text-[var(--text-secondary)] font-bold">
-                                <tr>
-                                    <th className="p-4">المستخدم</th>
-                                    <th className="p-4">إجمالي مرات الدخول</th>
-                                    <th className="p-4">أجهزة فريدة</th>
-                                    <th className="p-4">آخر نشاط</th>
-                                    <th className="p-4">التفاصيل</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-[var(--border-primary)]">
-                                {loginHistory.map((row) => (
-                                    <React.Fragment key={row.user_id}>
-                                        <tr className="hover:bg-[var(--bg-tertiary)]/50 transition-colors">
-                                            <td className="p-4 font-bold text-[var(--text-primary)]">{row.user_name}</td>
-                                            <td className="p-4">{row.total_logins}</td>
-                                            <td className="p-4">{row.unique_devices_count}</td>
-                                            <td className="p-4 dir-ltr text-left font-mono text-sm">{new Date(row.last_login).toLocaleString()}</td>
-                                            <td className="p-4">
-                                                <button 
-                                                    onClick={() => setExpandedHistoryUser(expandedHistoryUser === row.user_id ? null : row.user_id)}
-                                                    className="text-[var(--accent-primary)] hover:underline font-bold text-sm"
-                                                >
-                                                    {expandedHistoryUser === row.user_id ? 'إخفاء' : 'عرض الأجهزة'}
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        {expandedHistoryUser === row.user_id && (
-                                            <tr>
-                                                <td colSpan={5} className="p-4 bg-[var(--bg-tertiary)]/30">
-                                                    <div className="grid gap-2">
-                                                        {row.devices.map(dev => (
-                                                            <div key={dev.id} className="flex items-center justify-between p-2 bg-[var(--bg-secondary)] rounded border border-[var(--border-primary)] text-sm">
-                                                                <div className="flex items-center gap-3">
-                                                                    <div className={`w-2 h-2 rounded-full ${dev.is_active ? 'bg-green-500 animate-pulse' : 'bg-gray-400'}`}></div>
-                                                                    <span className="font-bold">{dev.device_name || 'Unknown Device'}</span>
-                                                                    <span className="text-[var(--text-secondary)]">({new Date(dev.last_active).toLocaleDateString()})</span>
-                                                                </div>
-                                                                {dev.is_active && (
-                                                                    <button onClick={() => handleLogoutSingleDevice(dev.id)} className="text-red-500 hover:bg-red-500/10 px-2 py-1 rounded transition-colors">تسجيل خروج</button>
-                                                                )}
+                <TableWrapper>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>المستخدم</TableHead>
+                                <TableHead>إجمالي مرات الدخول</TableHead>
+                                <TableHead>أجهزة فريدة</TableHead>
+                                <TableHead>آخر نشاط</TableHead>
+                                <TableHead>التفاصيل</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {loginHistory.map((row) => (
+                                <React.Fragment key={row.user_id}>
+                                    <TableRow>
+                                        <TableCell className="font-bold text-[var(--text-primary)]">{row.user_name}</TableCell>
+                                        <TableCell>{row.total_logins}</TableCell>
+                                        <TableCell>{row.unique_devices_count}</TableCell>
+                                        <TableCell className="dir-ltr text-left font-mono">{new Date(row.last_login).toLocaleString()}</TableCell>
+                                        <TableCell>
+                                            <button
+                                                onClick={() => setExpandedHistoryUser(expandedHistoryUser === row.user_id ? null : row.user_id)}
+                                                className="text-[var(--accent-primary)] hover:underline font-bold text-sm"
+                                            >
+                                                {expandedHistoryUser === row.user_id ? 'إخفاء' : 'عرض الأجهزة'}
+                                            </button>
+                                        </TableCell>
+                                    </TableRow>
+                                    {expandedHistoryUser === row.user_id && (
+                                        <TableRow>
+                                            <TableCell colSpan={5} className="bg-[var(--bg-tertiary)]/30">
+                                                <div className="grid gap-2 p-2">
+                                                    {row.devices.map(dev => (
+                                                        <div key={dev.id} className="flex items-center justify-between p-3 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-primary)] shadow-sm text-sm">
+                                                            <div className="flex items-center gap-3">
+                                                                <div className={`w-2.5 h-2.5 rounded-full ${dev.is_active ? 'bg-emerald-500 animate-pulse' : 'bg-gray-400'}`}></div>
+                                                                <span className="font-bold">{dev.device_name || 'Unknown Device'}</span>
+                                                                <span className="text-[var(--text-secondary)] font-mono text-xs">({new Date(dev.last_active).toLocaleString('ar-EG')})</span>
                                                             </div>
-                                                        ))}
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        )}
-                                    </React.Fragment>
-                                ))}
-                                {loginHistory.length === 0 && (
-                                     <tr>
-                                        <td colSpan={5} className="p-8 text-center text-[var(--text-secondary)]">لا يوجد سجل دخول متاح.</td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                 </div>
+                                                            {dev.is_active && (
+                                                                <button onClick={() => handleLogoutSingleDevice(dev.id)} className="text-red-500 font-bold hover:bg-red-500/10 px-3 py-1.5 rounded-lg transition-colors">تسجيل خروج</button>
+                                                            )}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    )}
+                                </React.Fragment>
+                            ))}
+                            {loginHistory.length === 0 && (
+                                <TableRow>
+                                    <TableCell colSpan={5} className="text-center py-12 text-[var(--text-secondary)] font-bold">لا يوجد سجل دخول متاح.</TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </TableWrapper>
             )}
-            
+
             <Modal isOpen={isClearAllModalOpen} onClose={() => setIsClearAllModalOpen(false)} title="تأكيد تسجيل الخروج الجماعي">
                 <div className="text-center">
                     <ShieldExclamationIcon className="w-16 h-16 text-red-500 mx-auto mb-4" />
                     <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">إجراء حرج!</h3>
                     <p className="text-[var(--text-secondary)] mb-6 text-sm">
-                        أنت على وشك <strong>تسجيل خروج جميع المستخدمين</strong> (الطلاب والمدرسين) من المنصة فوراً.<br/>
+                        أنت على وشك <strong>تسجيل خروج جميع المستخدمين</strong> (الطلاب والمدرسين) من المنصة فوراً.<br />
                         سيضطر الجميع لإعادة تسجيل الدخول. هل أنت متأكد؟
                     </p>
                     <div className="flex justify-center gap-3">

@@ -1,16 +1,17 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { 
-    getPlatformSettings, 
-    getAllGrades, 
-    getAllStudentProgress, 
-    getAllQuizAttempts 
+import {
+    getPlatformSettings,
+    getAllGrades,
+    getAllStudentProgress,
+    getAllQuizAttempts
 } from '../../services/storageService';
 import { getAllTeachers } from '../../services/teacherService';
 import { getAllSubscriptions } from '../../services/subscriptionService';
 import { Teacher, Subscription, Grade, PlatformSettings, QuizAttempt, Lesson } from '../../types';
 import Loader from '../common/Loader';
 import { ChartBarIcon, UsersIcon, VideoCameraIcon, BookOpenIcon, PencilIcon } from '../common/Icons';
+import { TableWrapper, Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell } from '../common/Table';
 
 interface TeacherPerformance extends Teacher {
     studentCount: number;
@@ -55,11 +56,11 @@ const FinancialReportsView: React.FC = () => {
 
             // Calculate teacher performance
             const lessonsByTeacher = new Map<string, string[]>();
-            grades.flatMap(g => g.semesters.flatMap(s => s.units.flatMap(u => (u.lessons || []).map(l => ({...l, teacherId: u.teacherId})))))
-                  .forEach(lesson => {
-                      if (!lessonsByTeacher.has(lesson.teacherId)) lessonsByTeacher.set(lesson.teacherId, []);
-                      lessonsByTeacher.get(lesson.teacherId)!.push(lesson.id);
-                  });
+            grades.flatMap(g => g.semesters.flatMap(s => s.units.flatMap(u => (u.lessons || []).map(l => ({ ...l, teacherId: u.teacherId })))))
+                .forEach(lesson => {
+                    if (!lessonsByTeacher.has(lesson.teacherId)) lessonsByTeacher.set(lesson.teacherId, []);
+                    lessonsByTeacher.get(lesson.teacherId)!.push(lesson.id);
+                });
 
             const performanceData = teachers.map(teacher => {
                 const teacherSubs = subs.filter(s => s.teacherId === teacher.id);
@@ -76,7 +77,7 @@ const FinancialReportsView: React.FC = () => {
                     totalInteractions,
                 };
             });
-            
+
             performanceData.sort((a, b) => b.studentCount - a.studentCount || b.totalInteractions - a.totalInteractions);
             setTeacherPerformance(performanceData);
 
@@ -85,7 +86,7 @@ const FinancialReportsView: React.FC = () => {
 
         fetchData();
     }, []);
-    
+
     const sortedMonths = useMemo(() => Object.keys(monthlyRevenue).sort().reverse(), [monthlyRevenue]);
     const totalRevenue = useMemo(() => Object.values(monthlyRevenue).reduce((sum: number, rev: number) => sum + rev, 0), [monthlyRevenue]);
 
@@ -106,62 +107,62 @@ const FinancialReportsView: React.FC = () => {
                     <ChartBarIcon className="w-6 h-6 text-purple-400" />
                     تقرير الإيرادات الشهري
                 </h2>
-                <div className="overflow-x-auto">
-                    <table className="w-full text-sm text-right">
-                        <thead className="border-b border-[var(--border-primary)]">
-                            <tr>
-                                <th className="px-4 py-3 font-semibold text-[var(--text-secondary)]">الشهر</th>
-                                <th className="px-4 py-3 font-semibold text-[var(--text-secondary)]">الإيرادات المحققة</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                <TableWrapper>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>الشهر</TableHead>
+                                <TableHead>الإيرادات المحققة</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
                             {sortedMonths.map(monthKey => (
-                                <tr key={monthKey} className="border-b border-[var(--border-primary)] last:border-b-0">
-                                    <td className="px-4 py-3 font-medium">{new Date(monthKey + '-02').toLocaleString('ar-EG', {month: 'long', year: 'numeric'})}</td>
-                                    <td className="px-4 py-3 font-bold text-lg text-green-400">{monthlyRevenue[monthKey].toLocaleString()} ج.م</td>
-                                </tr>
+                                <TableRow key={monthKey}>
+                                    <TableCell className="font-medium">{new Date(monthKey + '-02').toLocaleString('ar-EG', { month: 'long', year: 'numeric' })}</TableCell>
+                                    <TableCell className="font-bold text-lg text-emerald-500">{monthlyRevenue[monthKey].toLocaleString()} ج.م</TableCell>
+                                </TableRow>
                             ))}
-                        </tbody>
-                        <tfoot className="border-t-2 border-[var(--border-secondary)]">
-                            <tr>
-                                <td className="px-4 py-3 font-bold text-lg text-[var(--text-primary)]">الإجمالي</td>
-                                <td className="px-4 py-3 font-bold text-xl text-green-300">{totalRevenue.toLocaleString()} ج.م</td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
+                        </TableBody>
+                        <TableFooter>
+                            <TableRow>
+                                <TableCell className="font-black text-lg text-[var(--text-primary)]">الإجمالي</TableCell>
+                                <TableCell className="font-black text-xl text-emerald-400">{totalRevenue.toLocaleString()} ج.م</TableCell>
+                            </TableRow>
+                        </TableFooter>
+                    </Table>
+                </TableWrapper>
             </div>
 
             <div className="bg-[var(--bg-secondary)] p-6 rounded-xl shadow-lg border border-[var(--border-primary)]">
-                 <h2 className="text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-3">
+                <h2 className="text-xl font-bold text-[var(--text-primary)] mb-4 flex items-center gap-3">
                     <UsersIcon className="w-6 h-6 text-purple-400" />
                     تقرير أداء المدرسين
                 </h2>
-                 <div className="overflow-x-auto">
-                    <table className="w-full text-sm text-right">
-                        <thead className="border-b border-[var(--border-primary)]">
-                            <tr>
-                                <th className="px-4 py-3 font-semibold text-[var(--text-secondary)]">المدرس</th>
-                                <th className="px-4 py-3 font-semibold text-[var(--text-secondary)]">المادة</th>
-                                <th className="px-4 py-3 font-semibold text-[var(--text-secondary)]">عدد الطلاب</th>
-                                <th className="px-4 py-3 font-semibold text-[var(--text-secondary)]">التفاعلات (حصص + اختبارات)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                <TableWrapper>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>المدرس</TableHead>
+                                <TableHead>المادة</TableHead>
+                                <TableHead>عدد الطلاب</TableHead>
+                                <TableHead>التفاعلات (حصص + اختبارات)</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
                             {teacherPerformance.map(teacher => (
-                                <tr key={teacher.id} className="border-b border-[var(--border-primary)] last:border-b-0 hover:bg-[var(--bg-tertiary)] transition-colors">
-                                    <td className="px-4 py-3 font-medium flex items-center gap-2">
-                                        <img src={teacher.imageUrl || 'https://via.placeholder.com/40'} alt={teacher.name} className="w-8 h-8 rounded-full object-cover" />
+                                <TableRow key={teacher.id}>
+                                    <TableCell className="font-medium flex items-center gap-3">
+                                        <img src={teacher.imageUrl || 'https://via.placeholder.com/40'} alt={teacher.name} className="w-8 h-8 rounded-full object-cover border border-[var(--border-primary)]" />
                                         {teacher.name}
-                                    </td>
-                                    <td className="px-4 py-3 text-[var(--text-secondary)]">{teacher.subject}</td>
-                                    <td className="px-4 py-3 font-bold text-blue-400">{teacher.studentCount}</td>
-                                    <td className="px-4 py-3 font-bold text-purple-400">{teacher.totalInteractions}</td>
-                                </tr>
+                                    </TableCell>
+                                    <TableCell className="text-[var(--text-secondary)]">{teacher.subject}</TableCell>
+                                    <TableCell className="font-bold text-blue-400">{teacher.studentCount}</TableCell>
+                                    <TableCell className="font-bold text-purple-400">{teacher.totalInteractions}</TableCell>
+                                </TableRow>
                             ))}
-                        </tbody>
-                    </table>
-                </div>
+                        </TableBody>
+                    </Table>
+                </TableWrapper>
             </div>
         </div>
     );

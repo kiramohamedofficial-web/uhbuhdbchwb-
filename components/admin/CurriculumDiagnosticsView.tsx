@@ -4,6 +4,7 @@ import { useToast } from '../../useToast';
 import { ToastType, AdminView } from '../../types';
 import Loader from '../common/Loader';
 import { DatabaseIcon, CheckCircleIcon, XCircleIcon, ShieldExclamationIcon, ArrowRightIcon } from '../common/Icons';
+import { TableWrapper, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../common/Table';
 
 type Status = 'idle' | 'running' | 'ok' | 'warning' | 'error';
 
@@ -55,14 +56,14 @@ const CurriculumDiagnosticsView: React.FC<CurriculumDiagnosticsViewProps> = ({ o
             updateCheck('fetch', 'جلب البيانات الخام', 'running', 'جاري جلب البيانات من جدول `grades`...');
             const { data, error } = await supabase.from('grades').select('*').order('id');
             if (error) throw new Error(`فشل جلب البيانات: ${error.message}`);
-            
+
             setRawData(data);
             updateCheck('fetch', 'جلب البيانات الخام', 'ok', `تم جلب ${data.length} صفًا بنجاح.`);
 
             // FIX: Use .includes() for more robust matching to avoid false negatives.
             const middleSchoolRecords = data.filter(g => g.level_ar?.includes('الإعدادي') || g.level?.toLowerCase() === 'middle');
             updateCheck('middle_school', 'وجود صفوف إعدادية', middleSchoolRecords.length > 0 ? 'ok' : 'error', middleSchoolRecords.length > 0 ? `تم العثور على ${middleSchoolRecords.length} صفوف.` : 'خطأ فادح: لم يتم العثور على أي صفوف إعدادية.');
-            
+
             const secondarySchoolRecords = data.filter(g => g.level_ar?.includes('الثانوي') || g.level?.toLowerCase() === 'secondary');
             updateCheck('secondary_school', 'وجود صفوف ثانوية', secondarySchoolRecords.length > 0 ? 'ok' : 'warning', secondarySchoolRecords.length > 0 ? `تم العثور على ${secondarySchoolRecords.length} صفوف.` : 'لم يتم العثور على أي صفوف ثانوية.');
 
@@ -96,10 +97,10 @@ const CurriculumDiagnosticsView: React.FC<CurriculumDiagnosticsViewProps> = ({ o
                     <h2 className="text-xl font-bold text-[var(--text-primary)] mb-4">نتائج الفحص</h2>
                     <div className="space-y-3">
                         {results.map(check => (
-                             <div key={check.id} className="p-3 bg-[var(--bg-tertiary)] rounded-lg border border-[var(--border-primary)]">
+                            <div key={check.id} className="p-3 bg-[var(--bg-tertiary)] rounded-lg border border-[var(--border-primary)]">
                                 <div className="flex justify-between items-center">
                                     <h3 className="font-semibold text-sm">{check.title}</h3>
-                                    <StatusIndicator status={check.status}/>
+                                    <StatusIndicator status={check.status} />
                                 </div>
                                 <p className="text-sm text-[var(--text-secondary)] mt-1">{check.details}</p>
                             </div>
@@ -109,30 +110,30 @@ const CurriculumDiagnosticsView: React.FC<CurriculumDiagnosticsViewProps> = ({ o
             )}
 
             {rawData.length > 0 && (
-                 <div className="bg-[var(--bg-secondary)] p-6 rounded-xl shadow-lg border border-[var(--border-primary)]">
+                <div className="bg-[var(--bg-secondary)] p-6 rounded-xl shadow-lg border border-[var(--border-primary)]">
                     <h2 className="text-xl font-bold text-[var(--text-primary)] mb-4">البيانات الخام من جدول `grades`</h2>
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm text-right">
-                            <thead className="bg-[var(--bg-tertiary)]">
-                                <tr>
-                                    <th className="px-4 py-2">ID</th>
-                                    <th className="px-4 py-2">Name</th>
-                                    <th className="px-4 py-2">Level (Eng)</th>
-                                    <th className="px-4 py-2">Level (Ar)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <TableWrapper>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>ID</TableHead>
+                                    <TableHead>Name</TableHead>
+                                    <TableHead>Level (Eng)</TableHead>
+                                    <TableHead>Level (Ar)</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
                                 {rawData.map(row => (
-                                    <tr key={row.id} className="border-b border-[var(--border-primary)] last:border-b-0">
-                                        <td className="px-4 py-2 font-mono">{row.id}</td>
-                                        <td className="px-4 py-2 font-semibold text-[var(--text-primary)]">{row.name}</td>
-                                        <td className={`px-4 py-2 font-mono ${!row.level ? 'text-red-400' : ''}`}>{row.level || 'NULL'}</td>
-                                        <td className={`px-4 py-2 font-semibold ${!row.level_ar ? 'text-red-400' : ''}`}>{row.level_ar || 'NULL'}</td>
-                                    </tr>
+                                    <TableRow key={row.id}>
+                                        <TableCell className="font-mono">{row.id}</TableCell>
+                                        <TableCell className="font-semibold text-[var(--text-primary)]">{row.name}</TableCell>
+                                        <TableCell className={`font-mono ${!row.level ? 'text-red-400' : ''}`}>{row.level || 'NULL'}</TableCell>
+                                        <TableCell className={`font-semibold ${!row.level_ar ? 'text-red-400' : ''}`}>{row.level_ar || 'NULL'}</TableCell>
+                                    </TableRow>
                                 ))}
-                            </tbody>
-                        </table>
-                    </div>
+                            </TableBody>
+                        </Table>
+                    </TableWrapper>
                 </div>
             )}
         </div>

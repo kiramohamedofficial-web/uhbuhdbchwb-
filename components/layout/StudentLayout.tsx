@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { StudentView, Subscription, AppNotification } from '../../types';
 import {
@@ -67,12 +67,12 @@ const ReelsIcon: React.FC<{ className?: string }> = ({ className }) => {
 
 // --- Mobile Bottom Nav Items (6 Items) ---
 const bottomNavItems = [
-    { id: 'home', label: 'الرئيسية', icon: HomeBottomNavIcon },
-    { id: 'grades', label: 'المنهج', icon: CurriculumIcon },
-    { id: 'cartoonMovies', label: 'الأفلام', icon: CartoonMoviesIcon },
-    { id: 'reels', label: 'ريلز', icon: ReelsIcon },
-    { id: 'subscription', label: 'اشتراك', icon: SubscriptionBottomNavIcon },
-    { id: 'profile', label: 'ملفي', icon: ProfileBottomNavIcon },
+    { id: 'home', label: 'Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©', icon: HomeBottomNavIcon },
+    { id: 'grades', label: 'Ø§Ù„Ù…Ù†Ù‡Ø¬', icon: CurriculumIcon },
+    { id: 'cartoonMovies', label: 'Ø§Ù„Ø£ÙÙ„Ø§Ù…', icon: CartoonMoviesIcon },
+    { id: 'reels', label: 'Ø±ÙŠÙ„Ø²', icon: ReelsIcon },
+    { id: 'subscription', label: 'Ø§Ø´ØªØ±Ø§Ùƒ', icon: SubscriptionBottomNavIcon },
+    { id: 'profile', label: 'Ù…Ù„ÙÙŠ', icon: ProfileBottomNavIcon },
 ];
 
 // --- Sidebar Profile Card ---
@@ -133,11 +133,11 @@ const SidebarProfileCard: React.FC<{
                                     onClick={(e) => { e.stopPropagation(); onShowDetails(); }}
                                     className="text-[10px] font-black text-indigo-900 bg-white/90 px-3 py-1 rounded-lg border border-white/20 flex items-center gap-1.5 w-fit hover:bg-white transition-all shadow-sm active:scale-95"
                                 >
-                                    <CheckCircleIcon className="w-3 h-3 text-indigo-600" /> مشترك
+                                    <CheckCircleIcon className="w-3 h-3 text-indigo-600" /> Ù…Ø´ØªØ±Ùƒ
                                 </button>
                             ) : (
                                 <span className="text-[10px] font-black text-white/90 bg-black/20 px-3 py-1 rounded-lg border border-white/10 flex items-center gap-1.5 w-fit backdrop-blur-sm">
-                                    <InformationCircleIcon className="w-3 h-3" /> مجاني
+                                    <InformationCircleIcon className="w-3 h-3" /> Ù…Ø¬Ø§Ù†ÙŠ
                                 </span>
                             )}
                         </div>
@@ -201,7 +201,7 @@ const SidebarFooter: React.FC<{ collapsed: boolean, onLogout: () => void }> = ({
                 </div>
                 {!collapsed && (
                     <div className="flex-1 text-right flex justify-between items-center">
-                        <span className="font-bold text-sm text-[var(--text-primary)]">{mode === 'light' ? 'نهاري' : 'ليلي'}</span>
+                        <span className="font-bold text-sm text-[var(--text-primary)]">{mode === 'light' ? 'Ù†Ù‡Ø§Ø±ÙŠ' : 'Ù„ÙŠÙ„ÙŠ'}</span>
                     </div>
                 )}
             </button>
@@ -215,7 +215,7 @@ const SidebarFooter: React.FC<{ collapsed: boolean, onLogout: () => void }> = ({
                     <LogoutIcon className="w-3.5 h-3.5" />
                 </div>
                 {!collapsed && (
-                    <span className="font-bold text-sm">خروج</span>
+                    <span className="font-bold text-sm">Ø®Ø±ÙˆØ¬</span>
                 )}
             </button>
         </div>
@@ -252,33 +252,33 @@ const NavContent: React.FC<{
         <div className="flex flex-col h-full relative">
             <nav className="flex-1 overflow-y-auto custom-scrollbar px-2 space-y-1 relative z-10 pb-4 pt-1">
 
-                <NavSection title="الرئيسية" collapsed={collapsed}>
+                <NavSection title="Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©" collapsed={collapsed}>
                     {mainItems.map((item) => (
                         <NavButton key={item.id} onClick={() => onNavClick(item.id as StudentView)} label={item.label} icon={item.icon} isActive={activeView === item.id} collapsed={collapsed} />
                     ))}
                 </NavSection>
 
-                <NavSection title="الترفيه والتدريب" collapsed={collapsed}>
+                <NavSection title="Ø§Ù„ØªØ±ÙÙŠÙ‡ ÙˆØ§Ù„ØªØ¯Ø±ÙŠØ¨" collapsed={collapsed}>
                     {entItems.map((item) => (
                         <NavButton key={item.id} onClick={() => onNavClick(item.id as StudentView)} label={item.label} icon={item.icon} isActive={activeView === item.id} collapsed={collapsed} />
                     ))}
                 </NavSection>
 
-                <NavSection title="المساعد الذكي" collapsed={collapsed}>
+                <NavSection title="Ø§Ù„Ù…Ø³Ø§Ø¹Ø¯ Ø§Ù„Ø°ÙƒÙŠ" collapsed={collapsed}>
                     {helpItems.map((item) => (
                         <NavButton key={item.id} onClick={() => onNavClick(item.id as StudentView)} label={item.label} icon={item.icon} isActive={activeView === item.id} collapsed={collapsed} />
                     ))}
                 </NavSection>
 
-                <NavSection title="إضافية" collapsed={collapsed}>
-                    <NavButton onClick={() => onNavClick('subscription')} label="الاشتراك" icon={SubscriptionBottomNavIcon} isActive={activeView === 'subscription'} collapsed={collapsed} />
+                <NavSection title="Ø¥Ø¶Ø§ÙÙŠØ©" collapsed={collapsed}>
+                    <NavButton onClick={() => onNavClick('subscription')} label="Ø§Ù„Ø§Ø´ØªØ±Ø§Ùƒ" icon={SubscriptionBottomNavIcon} isActive={activeView === 'subscription'} collapsed={collapsed} />
                     <a href="https://wa.me/201222995328" target="_blank" rel="noopener noreferrer" className={`group relative flex items-center gap-3 p-2.5 rounded-lg transition-all duration-300 w-full mb-1 overflow-hidden ${collapsed ? 'justify-center p-2' : ''} text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)]`}>
                         <div className="w-5 h-5 flex-shrink-0 flex items-center justify-center text-green-500">
                             <WhatsAppIcon className="w-4 h-4" />
                         </div>
                         {!collapsed && (
                             <div className="flex-1 text-right flex justify-between items-center">
-                                <span className="text-[11px] font-bold transition-colors">الدعم الفني</span>
+                                <span className="text-[11px] font-bold transition-colors">Ø§Ù„Ø¯Ø¹Ù… Ø§Ù„ÙÙ†ÙŠ</span>
                             </div>
                         )}
                     </a>
@@ -291,37 +291,56 @@ const NavContent: React.FC<{
     )
 });
 
-// --- UPDATED BOTTOM NAV ITEM: No filters, bigger icons ---
+// --- PREMIUM BOTTOM NAV ITEM ---
 const BottomNavItem: React.FC<{ onClick: () => void; label: string; icon: React.FC<{ className?: string }>; isActive: boolean }> = React.memo(({ onClick, label, icon: Icon, isActive }) => (
     <button
         type="button"
         onClick={onClick}
-        className={`relative flex flex-col items-center justify-center transition-all duration-500 group flex-1 h-full pt-1`}
+        className={`relative flex flex-col items-center justify-center flex-1 h-full py-2 gap-1 group`}
+        style={{ WebkitTapHighlightColor: 'transparent' }}
     >
-        <div className={`transition-all duration-500 z-10 ${isActive ? '-translate-y-6 scale-110' : 'scale-100 opacity-60 group-hover:opacity-100'}`}>
-            <div className={`
-                w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500
+        {/* Active glow blob behind icon */}
+        {isActive && (
+            <motion.div
+                layoutId="navGlow"
+                className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+            >
+                <div className="w-14 h-14 rounded-2xl bg-amber-500/15 blur-sm" />
+            </motion.div>
+        )}
+
+        {/* Icon container */}
+        <div
+            className={`
+                relative z-10 w-10 h-10 rounded-xl flex items-center justify-center
+                transition-all duration-300 ease-out
                 ${isActive
-                    ? 'bg-amber-500 text-white shadow-[0_15px_30px_-5px_rgba(245,158,11,0.6)] rotate-0'
-                    : 'bg-transparent text-[var(--text-secondary)] group-hover:bg-amber-500/10'}
-            `}>
-                <Icon className={`w-6 h-6 object-contain`} />
-            </div>
+                    ? 'text-amber-500 scale-110 -translate-y-0.5'
+                    : 'text-[var(--text-secondary)] scale-100 group-active:scale-90'}
+            `}
+        >
+            <Icon className="w-5 h-5 object-contain" />
         </div>
 
-        <span className={`
-            text-[10px] font-black mt-1 transition-all duration-500 uppercase tracking-[0.05em]
-            ${isActive
-                ? 'text-amber-500 opacity-100 translate-y-[-4px]'
-                : 'text-[var(--text-secondary)] opacity-0 group-hover:opacity-100 translate-y-0'}
-        `}>
+        {/* Label */}
+        <span
+            className={`
+                relative z-10 text-[9px] font-black tracking-wide transition-all duration-300 leading-none
+                ${isActive
+                    ? 'text-amber-500 opacity-100'
+                    : 'text-[var(--text-secondary)] opacity-60 group-hover:opacity-80'}
+            `}
+        >
             {label}
         </span>
 
+        {/* Active dot indicator at top */}
         {isActive && (
             <motion.div
                 layoutId="navIndicator"
-                className="absolute top-0 w-8 h-1 rounded-b-full bg-amber-500 shadow-[0_4px_12px_rgba(245,158,11,0.4)]"
+                className="absolute top-0 inset-x-0 mx-auto w-6 h-[3px] rounded-b-full bg-amber-500 shadow-[0_2px_8px_rgba(245,158,11,0.6)]"
+                transition={{ type: 'spring', stiffness: 600, damping: 40 }}
             />
         )}
     </button>
@@ -344,17 +363,17 @@ const StudentLayout: React.FC<StudentLayoutProps> = ({ children, onNavClick, act
     const hasActiveSubscription = activeSubscriptions.length > 0;
 
     const navItems = useMemo(() => [
-        { id: 'home', label: 'الرئيسية', icon: HomeBottomNavIcon },
-        { id: 'grades', label: 'المنهج الدراسي', icon: CurriculumIcon },
-        { id: 'teachers', label: 'نخبة المدرسين', icon: UsersIcon },
-        { id: 'reels', label: 'ريلز', icon: ReelsIcon },
-        { id: 'askTeacher', label: 'اسأل مدرسك', icon: ChatBubbleOvalLeftEllipsisIcon },
-        { id: 'courses', label: 'الكورسات', icon: CoursesIcon },
-        { id: 'results', label: 'النتائج', icon: ResultsIcon },
-        { id: 'cartoonMovies', label: 'افلام كرتون', icon: CartoonMoviesIcon },
-        { id: 'subscription', label: 'الاشتراك', icon: SubscriptionBottomNavIcon },
-        { id: 'questionBank', label: 'بنك الأسئلة', icon: QuestionBankIcon },
-        { id: 'aiLearning', label: 'المعلم الذكي', icon: ChatbotIcon },
+        { id: 'home', label: 'Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ©', icon: HomeBottomNavIcon },
+        { id: 'grades', label: 'Ø§Ù„Ù…Ù†Ù‡Ø¬ Ø§Ù„Ø¯Ø±Ø§Ø³ÙŠ', icon: CurriculumIcon },
+        { id: 'teachers', label: 'Ù†Ø®Ø¨Ø© Ø§Ù„Ù…Ø¯Ø±Ø³ÙŠÙ†', icon: UsersIcon },
+        { id: 'reels', label: 'Ø±ÙŠÙ„Ø²', icon: ReelsIcon },
+        { id: 'askTeacher', label: 'Ø§Ø³Ø£Ù„ Ù…Ø¯Ø±Ø³Ùƒ', icon: ChatBubbleOvalLeftEllipsisIcon },
+        { id: 'courses', label: 'Ø§Ù„ÙƒÙˆØ±Ø³Ø§Øª', icon: CoursesIcon },
+        { id: 'results', label: 'Ø§Ù„Ù†ØªØ§Ø¦Ø¬', icon: ResultsIcon },
+        { id: 'cartoonMovies', label: 'Ø§ÙÙ„Ø§Ù… ÙƒØ±ØªÙˆÙ†', icon: CartoonMoviesIcon },
+        { id: 'subscription', label: 'Ø§Ù„Ø§Ø´ØªØ±Ø§Ùƒ', icon: SubscriptionBottomNavIcon },
+        { id: 'questionBank', label: 'Ø¨Ù†Ùƒ Ø§Ù„Ø£Ø³Ø¦Ù„Ø©', icon: QuestionBankIcon },
+        { id: 'aiLearning', label: 'Ø§Ù„Ù…Ø¹Ù„Ù… Ø§Ù„Ø°ÙƒÙŠ', icon: ChatbotIcon },
     ], []);
 
     useEffect(() => {
@@ -398,7 +417,7 @@ const StudentLayout: React.FC<StudentLayoutProps> = ({ children, onNavClick, act
         <div className="h-[100dvh] bg-[var(--bg-primary)] text-[var(--text-primary)] overflow-hidden flex flex-col md:grid md:grid-rows-1 font-tajawal transition-colors duration-300"
             style={{ gridTemplateColumns: isSidebarCollapsed ? '70px 1fr' : '240px 1fr' }}>
 
-            {/* Desktop Sidebar - Smaller Width [240px] - HIDDEN IN FULLSCREEN */}
+            {/* Desktop Sidebar - HIDDEN IN FULLSCREEN */}
             <aside
                 className={`hidden md:flex flex-col h-full z-40 transition-[width] duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] shadow-xl border-l border-[var(--border-primary)]
             ${isFullscreenMode ? 'hidden' : ''}
@@ -444,9 +463,7 @@ const StudentLayout: React.FC<StudentLayoutProps> = ({ children, onNavClick, act
             </aside>
 
             {/* Main Content Area */}
-            <div
-                className={`flex-1 flex flex-col h-full relative transition-all duration-300 ease-out will-change-transform transform-gpu`}
-            >
+            <div className="flex-1 flex flex-col h-full relative transition-all duration-300 ease-out will-change-transform transform-gpu">
                 {!isImmersiveView && !isFullscreenMode && (
                     <header className="w-full z-30 sticky top-0 px-4 md:px-6 pt-[calc(1rem+env(safe-area-inset-top))] pb-2 animate-slide-up">
                         <div className="flex justify-between items-center">
@@ -460,9 +477,9 @@ const StudentLayout: React.FC<StudentLayoutProps> = ({ children, onNavClick, act
                                 </div>
 
                                 <div className="hidden md:block">
-                                    <h2 className="text-lg font-black text-[var(--text-primary)] leading-none">مرحباً، {user.name.split(' ')[0]} 👋</h2>
+                                    <h2 className="text-lg font-black text-[var(--text-primary)] leading-none">Ù…Ø±Ø­Ø¨Ø§Ù‹ØŒ {user.name.split(' ')[0]} ðŸ‘‹</h2>
                                     <p className="text-sm font-bold text-[var(--accent-primary)] uppercase tracking-widest mt-0.5">
-                                        عرض القائمة <ChevronLeftIcon className="w-2.5 h-2.5 inline-block" />
+                                        Ø¹Ø±Ø¶ Ø§Ù„Ù‚Ø§Ø¦Ù…Ø© <ChevronLeftIcon className="w-2.5 h-2.5 inline-block" />
                                     </p>
                                 </div>
                             </div>
@@ -471,9 +488,9 @@ const StudentLayout: React.FC<StudentLayoutProps> = ({ children, onNavClick, act
                             <div className="flex gap-2">
                                 <button onClick={() => setIsNotificationsOpen(p => !p)} className="w-9 h-9 glass rounded-xl flex items-center justify-center text-white relative active:scale-90 transition-all duration-300 hover:bg-white/10 group icon-bounce">
                                     <BellIcon className="w-5 h-5 group-hover:rotate-12 transition-transform text-[var(--text-primary)]" />
-                                    {notifications.length > 0 && <span className="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full animate-pulse border border border-[var(--bg-secondary)]"></span>}
+                                    {notifications.length > 0 && <span className="absolute top-2 right-2.5 w-2 h-2 bg-red-500 rounded-full animate-pulse border border-[var(--bg-secondary)]"></span>}
                                 </button>
-                                <button className="md:hidden w-9 h-9 glass rounded-xl flex items-center justify-center text-[var(--accent-primary)] active:scale-90 transition-all duration-300 hover:bg-[var(--accent-primary)]/20 group icon-bounce" onClick={() => setIsMobileNavOpen(true)} title="فتح القائمة" aria-label="فتح القائمة">
+                                <button className="md:hidden w-9 h-9 glass rounded-xl flex items-center justify-center text-[var(--accent-primary)] active:scale-90 transition-all duration-300 hover:bg-[var(--accent-primary)]/20 group icon-bounce" onClick={() => setIsMobileNavOpen(true)} title="ÙØªØ­ Ø§Ù„Ù‚Ø§Ø¦Ù…Ø©" aria-label="ÙØªØ­ Ø§Ù„Ù‚Ø§Ø¦Ù…Ø©">
                                     <MenuIcon className="w-6 h-6 group-hover:rotate-180 transition-transform duration-500" />
                                 </button>
                             </div>
@@ -485,7 +502,7 @@ const StudentLayout: React.FC<StudentLayoutProps> = ({ children, onNavClick, act
                 {isNotificationsOpen && !isFullscreenMode && (
                     <div ref={notificationsRef} className="absolute top-16 left-4 z-50 w-80 bg-[var(--bg-secondary)] border border-[var(--border-primary)] rounded-[1.5rem] shadow-2xl overflow-hidden animate-slide-up glass">
                         <div className="p-3 border-b border-[var(--border-primary)] bg-[var(--bg-tertiary)]/50">
-                            <h3 className="font-black text-[var(--text-primary)] text-sm">الإشعارات</h3>
+                            <h3 className="font-black text-[var(--text-primary)] text-sm">Ø§Ù„Ø¥Ø´Ø¹Ø§Ø±Ø§Øª</h3>
                         </div>
                         <div className="max-h-80 overflow-y-auto p-2 custom-scrollbar">
                             {notifications.length > 0 ? notifications.map(n => (
@@ -493,13 +510,13 @@ const StudentLayout: React.FC<StudentLayoutProps> = ({ children, onNavClick, act
                                     <p className="text-sm font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors leading-relaxed">{n.text}</p>
                                     <p className="text-sm text-[var(--text-secondary)] mt-1 opacity-70 font-mono">{new Date(n.createdAt).toLocaleTimeString('ar-EG', { hour: 'numeric', minute: '2-digit' })}</p>
                                 </button>
-                            )) : <div className="p-6 text-center text-sm font-bold text-[var(--text-secondary)]">لا توجد إشعارات جديدة</div>}
+                            )) : <div className="p-6 text-center text-sm font-bold text-[var(--text-secondary)]">Ù„Ø§ ØªÙˆØ¬Ø¯ Ø¥Ø´Ø¹Ø§Ø±Ø§Øª Ø¬Ø¯ÙŠØ¯Ø©</div>}
                         </div>
                     </div>
                 )}
 
                 <main className={`flex-1 overflow-y-auto ${isImmersiveView || isFullscreenMode ? '' : 'p-4 md:p-6'} scroll-smooth custom-scrollbar`}>
-                    <div className={`${isImmersiveView || isFullscreenMode ? 'w-full h-full' : 'max-w-8xl mx-auto min-h-full pb-28 md:pb-10'}`}>
+                    <div className={`${isImmersiveView || isFullscreenMode ? 'w-full h-full' : 'max-w-8xl mx-auto min-h-full pb-24 md:pb-10'}`}>
                         <div key={activeView} className="animate-fade-in h-full">
                             {children}
                         </div>
@@ -507,10 +524,11 @@ const StudentLayout: React.FC<StudentLayoutProps> = ({ children, onNavClick, act
                 </main>
             </div>
 
-            {/* Mobile Bottom Nav - Premium Floating Design */}
+            {/* Mobile Bottom Nav - Premium Floating Capsule (outside main content area for fixed positioning) */}
             {!isImmersiveView && !isFullscreenMode && (
-                <div className="md:hidden fixed bottom-6 left-4 right-4 z-40">
-                    <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl rounded-[2.5rem] border border-white/20 dark:border-white/5 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.2)] px-2 h-20 flex items-center justify-between relative overflow-visible">
+                <div className="md:hidden fixed bottom-5 left-3 right-3 z-40">
+                    <div className="bg-[var(--bg-secondary)]/95 backdrop-blur-3xl rounded-[2rem] border border-[var(--border-primary)] shadow-[0_8px_40px_-8px_rgba(0,0,0,0.25)] h-[62px] flex items-stretch overflow-hidden relative">
+                        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
                         {bottomNavItems.map((item) => (
                             <BottomNavItem
                                 key={item.id}
@@ -528,12 +546,12 @@ const StudentLayout: React.FC<StudentLayoutProps> = ({ children, onNavClick, act
             {isMobileNavOpen && !isFullscreenMode && (
                 <div className="md:hidden fixed inset-0 z-[60]" role="dialog" aria-modal="true">
                     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm animate-fade-in" onClick={() => setIsMobileNavOpen(false)}></div>
-                    <div className={`fixed inset-y-0 right-0 w-[85%] max-w-[300px] flex flex-col bg-[#FFFDF5] dark:bg-[var(--bg-secondary)] border-l border-[var(--border-primary)] shadow-2xl overflow-hidden animate-slide-in-right rounded-l-[2.5rem]`}>
+                    <div className="fixed inset-y-0 right-0 w-[85%] max-w-[300px] flex flex-col bg-[#FFFDF5] dark:bg-[var(--bg-secondary)] border-l border-[var(--border-primary)] shadow-2xl overflow-hidden animate-slide-in-right rounded-l-[2.5rem]">
                         <div className="p-5 bg-[var(--bg-tertiary)]/50 border-b border-[var(--border-primary)] relative overflow-hidden">
                             <div className="relative z-10">
                                 <div className="flex justify-between items-center mb-4">
-                                    <h2 className="font-black text-lg text-[var(--text-primary)]">القائمة</h2>
-                                    <button onClick={() => setIsMobileNavOpen(false)} className="w-8 h-8 rounded-full glass hover:bg-black/5 dark:hover:bg-white/10 flex items-center justify-center transition-colors" title="إغلاق" aria-label="إغلاق"><XIcon className="w-4 h-4 text-[var(--text-primary)]" /></button>
+                                    <h2 className="font-black text-lg text-[var(--text-primary)]">Ø§Ù„Ù‚Ø§Ø¦Ù…Ø©</h2>
+                                    <button onClick={() => setIsMobileNavOpen(false)} className="w-8 h-8 rounded-full glass hover:bg-black/5 dark:hover:bg-white/10 flex items-center justify-center transition-colors" title="Ø¥ØºÙ„Ø§Ù‚" aria-label="Ø¥ØºÙ„Ø§Ù‚"><XIcon className="w-4 h-4 text-[var(--text-primary)]" /></button>
                                 </div>
                                 <SidebarProfileCard
                                     user={user}
@@ -554,13 +572,13 @@ const StudentLayout: React.FC<StudentLayoutProps> = ({ children, onNavClick, act
             )}
 
             {/* Subscription Details Modal */}
-            <Modal isOpen={isSubDetailsModalOpen} onClose={() => setIsSubDetailsModalOpen(false)} title="تفاصيل اشتراكاتك">
+            <Modal isOpen={isSubDetailsModalOpen} onClose={() => setIsSubDetailsModalOpen(false)} title="ØªÙØ§ØµÙŠÙ„ Ø§Ø´ØªØ±Ø§ÙƒØ§ØªÙƒ">
                 <div className="space-y-4">
                     <div className="bg-emerald-500/10 border border-emerald-500/20 p-4 rounded-2xl flex items-center gap-4">
                         <ShieldCheckIcon className="w-10 h-10 text-emerald-500" />
                         <div>
-                            <h4 className="font-black text-emerald-600 text-lg">أنت عضو مشترك</h4>
-                            <p className="text-sm text-emerald-700/70 font-bold">لديك {activeSubscriptions.length} اشتراكات نشطة حالياً.</p>
+                            <h4 className="font-black text-emerald-600 text-lg">Ø£Ù†Øª Ø¹Ø¶Ùˆ Ù…Ø´ØªØ±Ùƒ</h4>
+                            <p className="text-sm text-emerald-700/70 font-bold">Ù„Ø¯ÙŠÙƒ {activeSubscriptions.length} Ø§Ø´ØªØ±Ø§ÙƒØ§Øª Ù†Ø´Ø·Ø© Ø­Ø§Ù„ÙŠØ§Ù‹.</p>
                         </div>
                     </div>
 
@@ -568,11 +586,11 @@ const StudentLayout: React.FC<StudentLayoutProps> = ({ children, onNavClick, act
                         {activeSubscriptions.map((sub, idx) => (
                             <div key={idx} className="bg-[var(--bg-tertiary)] p-4 rounded-xl border border-[var(--border-primary)] flex justify-between items-center">
                                 <div>
-                                    <p className="font-black text-[var(--text-primary)]">{sub.teacherId ? 'مادة محددة' : 'باقة شاملة'}</p>
-                                    <p className="text-sm text-[var(--text-secondary)] mt-1">الباقة: {sub.plan === 'Monthly' ? 'شهرية' : 'سنوية'}</p>
+                                    <p className="font-black text-[var(--text-primary)]">{sub.teacherId ? 'Ù…Ø§Ø¯Ø© Ù…Ø­Ø¯Ø¯Ø©' : 'Ø¨Ø§Ù‚Ø© Ø´Ø§Ù…Ù„Ø©'}</p>
+                                    <p className="text-sm text-[var(--text-secondary)] mt-1">Ø§Ù„Ø¨Ø§Ù‚Ø©: {sub.plan === 'Monthly' ? 'Ø´Ù‡Ø±ÙŠØ©' : 'Ø³Ù†ÙˆÙŠØ©'}</p>
                                 </div>
                                 <div className="text-left bg-[var(--bg-secondary)] px-3 py-1.5 rounded-lg border border-[var(--border-primary)]">
-                                    <span className="block text-sm text-[var(--text-secondary)] uppercase tracking-wider">ينتهي في</span>
+                                    <span className="block text-sm text-[var(--text-secondary)] uppercase tracking-wider">ÙŠÙ†ØªÙ‡ÙŠ ÙÙŠ</span>
                                     <span className="block font-mono font-bold text-sm text-indigo-600">{new Date(sub.endDate).toLocaleDateString('ar-EG')}</span>
                                 </div>
                             </div>
@@ -590,3 +608,4 @@ const StudentLayout: React.FC<StudentLayoutProps> = ({ children, onNavClick, act
 };
 
 export default StudentLayout;
+

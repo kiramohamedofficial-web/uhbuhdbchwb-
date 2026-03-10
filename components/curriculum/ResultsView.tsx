@@ -5,6 +5,7 @@ import { getStudentQuizAttempts, getAllGrades, getVideoActivityForStudent, getLe
 import { CheckCircleIcon, XCircleIcon, ChartBarIcon, DocumentTextIcon, CalendarIcon, ClockIcon, SearchIcon, VideoCameraIcon, ChevronDownIcon, InformationCircleIcon, SparklesIcon, ChevronLeftIcon, ChevronRightIcon } from '../common/Icons';
 import Loader from '../common/Loader';
 import { useSession } from '../../hooks/useSession';
+import { TableWrapper, Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../common/Table';
 
 const StatCard: React.FC<{ title: string; value: string | number; subtitle: string; icon: React.FC<any>; colorClass: string }> = ({ title, value, subtitle, icon: Icon, colorClass }) => (
     <div className="bg-[var(--bg-secondary)] p-5 rounded-[2rem] shadow-lg border border-[var(--border-primary)] relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300">
@@ -115,23 +116,23 @@ const ResultCard: React.FC<{ attempt: QuizAttempt; lessonTitle: string }> = ({ a
                         <h3 className="text-lg font-bold text-[var(--text-primary)] mb-1 md:mb-0 line-clamp-1">{lessonTitle}</h3>
                         <div className="flex items-center gap-2 self-center md:self-auto">
                             <span className={`px-3 py-1 rounded-full text-sm font-bold inline-flex items-center gap-1 ${isPass ? 'bg-blue-500/10 text-blue-600' : 'bg-red-500/10 text-red-600'}`}>
-                                {isPass ? <CheckCircleIcon className="w-3 h-3"/> : <XCircleIcon className="w-3 h-3"/>}
+                                {isPass ? <CheckCircleIcon className="w-3 h-3" /> : <XCircleIcon className="w-3 h-3" />}
                                 {isPass ? 'ناجح' : 'يحتاج تحسين'}
                             </span>
                         </div>
                     </div>
-                    
+
                     <div className="flex flex-wrap justify-center md:justify-start gap-4 text-sm text-[var(--text-secondary)] mt-3 items-center">
                         <span className="flex items-center gap-1 bg-[var(--bg-tertiary)] px-2 py-1 rounded-lg">
-                            <CalendarIcon className="w-3 h-3 text-[var(--accent-primary)]"/> {date}
+                            <CalendarIcon className="w-3 h-3 text-[var(--accent-primary)]" /> {date}
                         </span>
                         {lesson && (
                             <>
                                 <span className="flex items-center gap-1 bg-blue-500/10 text-blue-600 px-2 py-1 rounded-lg font-bold border border-blue-500/20">
-                                    <CheckCircleIcon className="w-3 h-3"/> {stats.correct} صحيح
+                                    <CheckCircleIcon className="w-3 h-3" /> {stats.correct} صحيح
                                 </span>
                                 <span className="flex items-center gap-1 bg-rose-500/10 text-rose-600 px-2 py-1 rounded-lg font-bold border border-rose-500/20">
-                                    <XCircleIcon className="w-3 h-3"/> {stats.wrong} خطأ
+                                    <XCircleIcon className="w-3 h-3" /> {stats.wrong} خطأ
                                 </span>
                             </>
                         )}
@@ -139,7 +140,7 @@ const ResultCard: React.FC<{ attempt: QuizAttempt; lessonTitle: string }> = ({ a
                 </div>
 
                 {/* Action Button */}
-                <button 
+                <button
                     onClick={handleToggle}
                     className={`px-6 py-3 rounded-xl font-black text-sm transition-all flex items-center gap-2 shadow-lg active:scale-95 whitespace-nowrap ${isExpanded ? 'bg-[var(--bg-tertiary)] text-[var(--text-secondary)]' : 'bg-indigo-600 text-white hover:bg-indigo-700'}`}
                 >
@@ -161,7 +162,9 @@ const ResultCard: React.FC<{ attempt: QuizAttempt; lessonTitle: string }> = ({ a
                                     <h4 className="font-black text-sm">مراجعة الإجابات والتحليل</h4>
                                 </div>
                                 <div className="flex items-center gap-2 bg-[var(--bg-secondary)] p-1 rounded-xl border border-[var(--border-primary)]">
-                                    <button 
+                                    <button
+                                        title="السؤال السابق"
+                                        aria-label="السؤال السابق"
                                         onClick={handlePrevQuestion}
                                         disabled={currentQuestionIndex === 0}
                                         className="p-2 rounded-lg hover:bg-[var(--bg-tertiary)] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
@@ -171,7 +174,9 @@ const ResultCard: React.FC<{ attempt: QuizAttempt; lessonTitle: string }> = ({ a
                                     <span className="text-sm font-bold text-[var(--text-secondary)] px-2">
                                         سؤال {currentQuestionIndex + 1} من {resolvedQuestions.length}
                                     </span>
-                                    <button 
+                                    <button
+                                        title="السؤال التالي"
+                                        aria-label="السؤال التالي"
                                         onClick={handleNextQuestion}
                                         disabled={currentQuestionIndex === resolvedQuestions.length - 1}
                                         className="p-2 rounded-lg hover:bg-[var(--bg-tertiary)] disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
@@ -184,7 +189,7 @@ const ResultCard: React.FC<{ attempt: QuizAttempt; lessonTitle: string }> = ({ a
                             <div className="relative overflow-hidden min-h-[400px]">
                                 {resolvedQuestions.map((q, idx) => {
                                     if (idx !== currentQuestionIndex) return null;
-                                    
+
                                     const studentAnswerIdx = (attempt.submittedAnswers as (number | null)[])?.[idx];
                                     const isCorrect = studentAnswerIdx !== null && studentAnswerIdx !== undefined && Number(studentAnswerIdx) === Number(q.correctAnswerIndex);
 
@@ -201,12 +206,12 @@ const ResultCard: React.FC<{ attempt: QuizAttempt; lessonTitle: string }> = ({ a
                                                     </span>
                                                 </div>
                                             </div>
-                                            
+
                                             <div className="grid grid-cols-1 gap-3 mb-6">
                                                 {q.options.map((opt, optIdx) => {
                                                     const isStudentChoice = studentAnswerIdx !== null && studentAnswerIdx !== undefined && Number(studentAnswerIdx) === optIdx;
                                                     const isCorrectChoice = Number(q.correctAnswerIndex) === optIdx;
-                                                    
+
                                                     let style = "bg-[var(--bg-secondary)] border-[var(--border-primary)] text-[var(--text-secondary)] hover:border-indigo-500/30";
                                                     let icon = null;
 
@@ -253,10 +258,10 @@ const ResultCard: React.FC<{ attempt: QuizAttempt; lessonTitle: string }> = ({ a
                                     );
                                 })}
                             </div>
-                            
+
                             {/* Mobile Navigation Footer */}
                             <div className="flex justify-between items-center mt-4 sm:hidden">
-                                <button 
+                                <button
                                     onClick={handlePrevQuestion}
                                     disabled={currentQuestionIndex === 0}
                                     className="px-4 py-2 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-primary)] text-[var(--text-primary)] font-bold text-sm disabled:opacity-50"
@@ -266,7 +271,7 @@ const ResultCard: React.FC<{ attempt: QuizAttempt; lessonTitle: string }> = ({ a
                                 <span className="text-sm font-bold text-[var(--text-secondary)]">
                                     {currentQuestionIndex + 1} / {resolvedQuestions.length}
                                 </span>
-                                <button 
+                                <button
                                     onClick={handleNextQuestion}
                                     disabled={currentQuestionIndex === resolvedQuestions.length - 1}
                                     className="px-4 py-2 rounded-xl bg-indigo-600 text-white font-bold text-sm disabled:opacity-50 disabled:bg-[var(--bg-secondary)] disabled:text-[var(--text-secondary)]"
@@ -353,7 +358,7 @@ const ResultsView: React.FC = () => {
         const total = attempts.length;
         const passed = attempts.filter(a => a.isPass).length;
         const avg = attempts.reduce((acc, curr) => acc + curr.score, 0) / total;
-        
+
         // Calculate total study time
         const totalStudySeconds = videoActivity.reduce((acc, curr) => acc + (curr.watched_seconds || 0), 0);
 
@@ -363,7 +368,7 @@ const ResultsView: React.FC = () => {
     const formattedStudyTime = useMemo(() => {
         const hours = Math.floor(stats.totalStudySeconds / 3600);
         const minutes = Math.floor((stats.totalStudySeconds % 3600) / 60);
-        
+
         if (hours > 0) {
             return `${hours} ساعة و ${minutes} دقيقة`;
         }
@@ -372,11 +377,11 @@ const ResultsView: React.FC = () => {
 
     const filteredAttempts = useMemo(() => {
         return attempts.filter(attempt => {
-            const matchesFilter = 
+            const matchesFilter =
                 filter === 'all' ? true :
-                filter === 'pass' ? attempt.isPass :
-                !attempt.isPass;
-            
+                    filter === 'pass' ? attempt.isPass :
+                        !attempt.isPass;
+
             const lessonInfo = lessonMap.get(attempt.lessonId);
             const lessonTitle = lessonInfo?.lessonTitle || '';
             const matchesSearch = lessonTitle.toLowerCase().includes(searchQuery.toLowerCase());
@@ -412,39 +417,39 @@ const ResultsView: React.FC = () => {
 
             {/* Stats Overview */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <StatCard 
-                    title="وقت المذاكرة" 
-                    value={formattedStudyTime} 
-                    subtitle="إجمالي مشاهدة الفيديوهات" 
-                    icon={VideoCameraIcon} 
-                    colorClass="text-blue-500" 
+                <StatCard
+                    title="وقت المذاكرة"
+                    value={formattedStudyTime}
+                    subtitle="إجمالي مشاهدة الفيديوهات"
+                    icon={VideoCameraIcon}
+                    colorClass="text-blue-500"
                 />
-                <StatCard 
-                    title="إجمالي الاختبارات" 
-                    value={stats.total} 
-                    subtitle="اختبار تم أداؤه" 
-                    icon={DocumentTextIcon} 
-                    colorClass="text-purple-500" 
+                <StatCard
+                    title="إجمالي الاختبارات"
+                    value={stats.total}
+                    subtitle="اختبار تم أداؤه"
+                    icon={DocumentTextIcon}
+                    colorClass="text-purple-500"
                 />
-                <StatCard 
-                    title="متوسط الدرجات" 
-                    value={`${stats.average}%`} 
-                    subtitle="معدل أدائك العام" 
-                    icon={ChartBarIcon} 
-                    colorClass="text-indigo-500" 
+                <StatCard
+                    title="متوسط الدرجات"
+                    value={`${stats.average}%`}
+                    subtitle="معدل أدائك العام"
+                    icon={ChartBarIcon}
+                    colorClass="text-indigo-500"
                 />
-                <StatCard 
-                    title="معدل النجاح" 
-                    value={`${stats.total > 0 ? Math.round((stats.passed / stats.total) * 100) : 0}%`} 
-                    subtitle={`${stats.passed} اختبار ناجح`} 
-                    icon={CheckCircleIcon} 
-                    colorClass="text-green-500" 
+                <StatCard
+                    title="معدل النجاح"
+                    value={`${stats.total > 0 ? Math.round((stats.passed / stats.total) * 100) : 0}%`}
+                    subtitle={`${stats.passed} اختبار ناجح`}
+                    icon={CheckCircleIcon}
+                    colorClass="text-green-500"
                 />
             </div>
 
             {/* Video Activity Table */}
             <div className="bg-[var(--bg-secondary)] rounded-[2.5rem] border border-[var(--border-primary)] shadow-sm overflow-hidden">
-                <div 
+                <div
                     onClick={() => setIsVideoActivityExpanded(!isVideoActivityExpanded)}
                     className="p-6 flex justify-between items-center cursor-pointer hover:bg-[var(--bg-tertiary)]/50 transition-colors"
                 >
@@ -454,47 +459,51 @@ const ResultsView: React.FC = () => {
                     </h2>
                     <ChevronDownIcon className={`w-6 h-6 text-[var(--text-secondary)] transition-transform duration-300 ${isVideoActivityExpanded ? 'rotate-180' : ''}`} />
                 </div>
-                
+
                 <div className={`transition-all duration-500 ease-in-out ${isVideoActivityExpanded ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
                     <div className="p-6 pt-0 overflow-x-auto">
                         <div className="rounded-2xl border border-[var(--border-primary)] overflow-hidden">
-                            <table className="w-full text-right text-sm min-w-[600px]">
-                                <thead className="bg-[var(--bg-tertiary)] text-[var(--text-secondary)] font-bold">
-                                    <tr>
-                                        <th className="px-6 py-4">الحصة</th>
-                                        <th className="px-6 py-4">الوحدة</th>
-                                        <th className="px-6 py-4 text-center">الوقت المشاهد</th>
-                                        <th className="px-6 py-4 text-center">الإنجاز</th>
-                                        <th className="px-6 py-4 text-center">آخر مشاهدة</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-[var(--border-primary)]">
-                                    {videoActivity.length > 0 ? videoActivity.map(activity => {
-                                        const lessonInfo = lessonMap.get(activity.lesson_id);
-                                        return (
-                                            <tr key={activity.id} className="hover:bg-[var(--bg-tertiary)]/30 transition-colors">
-                                                <td className="px-6 py-4 font-bold text-[var(--text-primary)]">{lessonInfo?.lessonTitle || '---'}</td>
-                                                <td className="px-6 py-4 text-[var(--text-secondary)] font-medium">{lessonInfo?.unitTitle || '---'}</td>
-                                                <td className="px-6 py-4 text-center font-mono font-bold text-blue-600 bg-blue-500/5 rounded-lg" dir="ltr">{formatSeconds(activity.watched_seconds)}</td>
-                                                <td className="px-6 py-4 text-center">
-                                                    <span className={`px-2.5 py-1 rounded-full text-sm font-black border ${activity.milestone === '100%' ? 'bg-green-500/10 text-green-500 border-green-500/20' : 'bg-blue-500/10 text-blue-500 border-blue-500/20'}`}>
-                                                        {activity.milestone || '0%'}
-                                                    </span>
-                                                </td>
-                                                <td className="px-6 py-4 text-center text-sm text-[var(--text-secondary)] opacity-60">
-                                                    {new Date(activity.last_updated_at).toLocaleDateString('ar-EG')}
-                                                </td>
-                                            </tr>
-                                        );
-                                    }) : (
-                                        <tr>
-                                            <td colSpan={5} className="px-6 py-12 text-center text-[var(--text-secondary)] opacity-50 italic">
-                                                لم يتم تسجيل أي نشاط مشاهدة بعد.
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
+                            <TableWrapper>
+                                <Table className="min-w-[600px]">
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>الحصة</TableHead>
+                                            <TableHead>الوحدة</TableHead>
+                                            <TableHead className="text-center">الوقت المشاهد</TableHead>
+                                            <TableHead className="text-center">الإنجاز</TableHead>
+                                            <TableHead className="text-center">آخر مشاهدة</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {videoActivity.length > 0 ? videoActivity.map(activity => {
+                                            const lessonInfo = lessonMap.get(activity.lesson_id);
+                                            return (
+                                                <TableRow key={activity.id} className="hover:bg-[var(--bg-tertiary)]/30 transition-colors">
+                                                    <TableCell className="font-bold text-[var(--text-primary)]">{lessonInfo?.lessonTitle || '---'}</TableCell>
+                                                    <TableCell className="text-[var(--text-secondary)] font-medium">{lessonInfo?.unitTitle || '---'}</TableCell>
+                                                    <TableCell className="text-center font-mono font-bold text-blue-600">
+                                                        <span className="bg-blue-500/5 px-2 py-1 rounded-lg" dir="ltr">{formatSeconds(activity.watched_seconds)}</span>
+                                                    </TableCell>
+                                                    <TableCell className="text-center">
+                                                        <span className={`px-2.5 py-1 rounded-full text-sm font-black border ${activity.milestone === '100%' ? 'bg-green-500/10 text-green-500 border-green-500/20' : 'bg-blue-500/10 text-blue-500 border-blue-500/20'}`}>
+                                                            {activity.milestone || '0%'}
+                                                        </span>
+                                                    </TableCell>
+                                                    <TableCell className="text-center text-sm text-[var(--text-secondary)] opacity-60">
+                                                        {new Date(activity.last_updated_at).toLocaleDateString('ar-EG')}
+                                                    </TableCell>
+                                                </TableRow>
+                                            );
+                                        }) : (
+                                            <TableRow>
+                                                <TableCell colSpan={5} className="py-12 text-center text-[var(--text-secondary)] opacity-50 italic">
+                                                    لم يتم تسجيل أي نشاط مشاهدة بعد.
+                                                </TableCell>
+                                            </TableRow>
+                                        )}
+                                    </TableBody>
+                                </Table>
+                            </TableWrapper>
                         </div>
                     </div>
                 </div>
@@ -514,11 +523,10 @@ const ResultsView: React.FC = () => {
                             <button
                                 key={f}
                                 onClick={() => setFilter(f)}
-                                className={`px-6 py-2.5 rounded-lg text-sm font-bold transition-all duration-300 ${
-                                    filter === f 
-                                    ? 'bg-[var(--bg-secondary)] text-[var(--text-primary)] shadow-md' 
+                                className={`px-6 py-2.5 rounded-lg text-sm font-bold transition-all duration-300 ${filter === f
+                                    ? 'bg-[var(--bg-secondary)] text-[var(--text-primary)] shadow-md'
                                     : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                                }`}
+                                    }`}
                             >
                                 {f === 'all' ? 'الكل' : f === 'pass' ? 'الناجحة' : 'تحتاج تحسين'}
                             </button>
@@ -540,9 +548,9 @@ const ResultsView: React.FC = () => {
                     {filteredAttempts.length > 0 ? (
                         filteredAttempts.map(attempt => (
                             <div key={attempt.id} className="fade-in">
-                                <ResultCard 
-                                    attempt={attempt} 
-                                    lessonTitle={lessonMap.get(attempt.lessonId)?.lessonTitle || 'درس غير معروف'} 
+                                <ResultCard
+                                    attempt={attempt}
+                                    lessonTitle={lessonMap.get(attempt.lessonId)?.lessonTitle || 'درس غير معروف'}
                                 />
                             </div>
                         ))

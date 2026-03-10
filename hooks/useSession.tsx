@@ -54,96 +54,108 @@ export const SessionProvider: React.FC<{ children: React.ReactNode }> = ({ child
         const { data: { subscription } } = onAuthStateChange(async (event, session) => {
             if (!isMounted) return;
             
-            await initData();
-
-            if (event === 'PASSWORD_RECOVERY') {
-                setAuthView('update-password');
-                addToast('مرحباً بك مجدداً. الرجاء إدخال كلمة المرور الجديدة.', ToastType.INFO);
-                setIsLoading(false);
-                return;
-            }
-
-            if (event === 'SIGNED_OUT') {
-                setCurrentUser(null);
-                setAuthView('welcome');
-                setIsLoading(false);
-                return;
-            }
-
-            if (session) {
-                // Fetch profile if not already set or if id changed
+            try {
                 try {
-                    let profile: any = null;
-                    let attempts = 0;
-                    while (!profile && attempts < 5 && isMounted) {
-                        const { data: profileData } = await supabase
-                            .from('profiles')
-                            .select('*')
-                            .eq('id', session.user.id)
-                            .maybeSingle();
-                        profile = profileData;
-                        if (!profile) {
-                            attempts++;
-                            await new Promise(res => setTimeout(res, 500 * attempts));
-                        }
-                    }
-
-                    if (profile && isMounted) {
-                        const gradeData = getGradeByIdSync(profile.grade_id);
-                        const mergedUser: User = {
-                            id: session.user.id,
-                            name: profile.name,
-                            email: session.user.email || profile.email,
-                            phone: profile.phone,
-                            guardianPhone: profile.guardian_phone,
-                            grade: profile.grade_id,
-                            track: profile.track,
-                            role: profile.role,
-                            subscriptionId: profile.subscription_id,
-                            teacherId: profile.teacher_id,
-                            imageUrl: profile.profile_image_url,
-                            gradeData: gradeData,
-                        };
-                        setCurrentUser(mergedUser);
-                    }
+                    await initData();
                 } catch (e) {
-                    console.error("Auth state change profile fetch error:", e);
+                    console.error("initData failed during auth state change:", e);
                 }
-            } else {
-                setCurrentUser(null);
+
+                if (event === 'PASSWORD_RECOVERY') {
+                    setAuthView('update-password');
+                    addToast('مرحباً بك مجدداً. الرجاء إدخال كلمة المرور الجديدة.', ToastType.INFO);
+                    return;
+                }
+
+                if (event === 'SIGNED_OUT') {
+                    setCurrentUser(null);
+                    setAuthView('welcome');
+                    return;
+                }
+
+                if (session) {
+                    try {
+                        let profile: any = null;
+                        let attempts = 0;
+                        while (!profile && attempts < 3 && isMounted) {
+                            const { data: profileData } = await supabase
+                                .from('profiles')
+                                .select('*')
+                                .eq('id', session.user.id)
+                                .maybeSingle();
+                            profile = profileData;
+                            if (!profile) {
+                                attempts++;
+                                await new Promise(res => setTimeout(res, 1000 * attempts));
+                            }
+                        }
+
+                        if (profile && isMounted) {
+                            const gradeData = getGradeByIdSync(profile.grade_id);
+                            const mergedUser: User = {
+                                id: session.user.id,
+                                name: profile.name,
+                                email: session.user.email || profile.email,
+                                phone: profile.phone,
+                                guardianPhone: profile.guardian_phone,
+                                grade: profile.grade_id,
+                                track: profile.track,
+                                role: profile.role,
+                                subscriptionId: profile.subscription_id,
+                                teacherId: profile.teacher_id,
+                                imageUrl: profile.profile_image_url,
+                                gradeData: gradeData,
+                            };
+                            setCurrentUser(mergedUser);
+                        }
+                    } catch (e) {
+                        console.error("Profile fetch error during auth state change:", e);
+                    }
+                } else {
+                    setCurrentUser(null);
+                }
+            } finally {
+                if (isMounted) setIsLoading(false);
             }
-            setIsLoading(false);
         });
 
         // Initial session check
         (async () => {
             try {
-                await initData();
+                try {
+                    await initData();
+                } catch (e) {
+                    console.warn("initData failed during initial session check:", e);
+                }
                 const { data: { session } } = await supabase.auth.getSession();
                 
                 if (session && isMounted) {
-                    const { data: profile } = await supabase
-                        .from('profiles')
-                        .select('*')
-                        .eq('id', session.user.id)
-                        .maybeSingle();
-                    
-                    if (profile && isMounted) {
-                        const gradeData = getGradeByIdSync(profile.grade_id);
-                        setCurrentUser({
-                            id: session.user.id,
-                            name: profile.name,
-                            email: session.user.email || profile.email,
-                            phone: profile.phone,
-                            guardianPhone: profile.guardian_phone,
-                            grade: profile.grade_id,
-                            track: profile.track,
-                            role: profile.role,
-                            subscriptionId: profile.subscription_id,
-                            teacherId: profile.teacher_id,
-                            imageUrl: profile.profile_image_url,
-                            gradeData: gradeData,
-                        });
+                    try {
+                        const { data: profile } = await supabase
+                            .from('profiles')
+                            .select('*')
+                            .eq('id', session.user.id)
+                            .maybeSingle();
+                        
+                        if (profile && isMounted) {
+                            const gradeData = getGradeByIdSync(profile.grade_id);
+                            setCurrentUser({
+                                id: session.user.id,
+                                name: profile.name,
+                                email: session.user.email || profile.email,
+                                phone: profile.phone,
+                                guardianPhone: profile.guardian_phone,
+                                grade: profile.grade_id,
+                                track: profile.track,
+                                role: profile.role,
+                                subscriptionId: profile.subscription_id,
+                                teacherId: profile.teacher_id,
+                                imageUrl: profile.profile_image_url,
+                                gradeData: gradeData,
+                            });
+                        }
+                    } catch (e) {
+                        console.error("Profile fetch error during initial session check:", e);
                     }
                 }
             } catch (e) {

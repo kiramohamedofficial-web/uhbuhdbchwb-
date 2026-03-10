@@ -416,7 +416,7 @@ const Profile: React.FC<{ onNavigate: (view: StudentView) => void; isDataSaverEn
                                     <div className="text-right">
                                         <p className="text-lg font-black text-white drop-shadow-sm">اشتراك نشط</p>
                                         <p className="text-xs text-white/90 font-bold mt-0.5 uppercase tracking-widest">
-                                            {isComprehensive ? 'وصول شامل للمنصة' : `משתרك في ${activeSubscriptions.length} مواد`}
+                                            {isComprehensive ? 'وصول شامل للمنصة' : `مشترك في ${activeSubscriptions.length} مواد`}
                                         </p>
                                     </div>
                                 </div>

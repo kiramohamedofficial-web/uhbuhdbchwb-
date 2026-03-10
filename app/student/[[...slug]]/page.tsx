@@ -124,9 +124,7 @@ function StudentPageInner() {
         <AppLifecycleContext.Provider value={lifecycleValue}>
             <div className="transition-all duration-300 min-h-screen">
                 <ErrorBoundary>
-                    <ScreenSecurity>
-                        <StudentDashboard />
-                    </ScreenSecurity>
+                    <StudentDashboard />
                 </ErrorBoundary>
             </div>
             <ToastContainer />
